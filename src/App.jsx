@@ -37,7 +37,7 @@ import { setupShadowCast } from "./modules/shadowCast.js";
 import { setupSlice } from "./modules/slice.js";
 import { setupLocate } from "./modules/locate.js";
 import {
-  elevationManipulation,
+  // elevationManipulation,
   setupElevationLayer,
 } from "./modules/elevation.js";
 import {
@@ -60,7 +60,7 @@ import "@esri/calcite-components/dist/components/calcite-alert.js";
 import "@esri/calcite-components/dist/components/calcite-panel.js";
 import "@esri/calcite-components/dist/components/calcite-checkbox.js";
 import "@esri/calcite-components/dist/components/calcite-label.js";
-import "@esri/calcite-components/dist/components/calcite-slider.js";
+// import "@esri/calcite-components/dist/components/calcite-slider.js";
 import "@esri/calcite-components/dist/components/calcite-radio-button-group.js";
 import "@esri/calcite-components/dist/components/calcite-radio-button.js";
 import "@esri/calcite-components/dist/components/calcite-input-text.js";
@@ -73,17 +73,18 @@ import {
   CalciteTooltip,
   CalciteAlert,
   CalcitePanel,
-  CalciteCheckbox,
+  // CalciteCheckbox,
   CalciteLabel,
-  CalciteSlider,
-  CalciteRadioButtonGroup,
-  CalciteRadioButton,
+  // CalciteSlider,
+  // CalciteRadioButtonGroup,
+  // CalciteRadioButton,
   CalciteInputText,
   CalciteButton,
 } from "@esri/calcite-components-react";
 
-import { BasemapGalleryPanel } from "./components/BasemapGalleryPanel.jsx";
-// import { BasemapSwitch } from "./components/BasemapSwitch.jsx";
+import { BasemapGalleryPanel } from "./components/Basemaps/BasemapGalleryPanel.jsx";
+import { ElevationGalleryPanel } from "./components/Elevation/ElevationGalleryPanel.jsx";
+
 
 // CSS modules
 import "./App.css";
@@ -228,7 +229,7 @@ function App() {
          * Elevation toolbox
          **************************************/
 
-        elevationManipulation(view);
+        // elevationManipulation(view);
 
         /**************************************
          *  Coordinate tool
@@ -532,7 +533,9 @@ function App() {
 
           <BasemapGalleryPanel basemaps={basemaps} view={view} />
 
-          <CalcitePanel
+          <ElevationGalleryPanel view={view} />
+
+          {/* <CalcitePanel
             heading="Elevation settings"
             height-scale="l"
             data-panel-id="elevation"
@@ -579,7 +582,7 @@ function App() {
               <CalciteCheckbox id="elevationInput" checked></CalciteCheckbox>
               Elevation
             </CalciteLabel>
-          </CalcitePanel>
+          </CalcitePanel> */}
 
           <CalcitePanel
             heading="Line of Sight"

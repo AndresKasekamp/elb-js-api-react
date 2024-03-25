@@ -7,7 +7,6 @@ export const BasemapSlider = ({ view }) => {
   const [sliderValue, setSliderValue] = useState(100);
 
   const handleOpacityChange = (event) => {
-      console.log("Opacity change for basemaps")
     const newValue = event.target.value;
     setSliderValue(newValue);
     view.map.ground.opacity = newValue / 100;

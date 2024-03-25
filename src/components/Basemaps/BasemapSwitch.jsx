@@ -9,7 +9,6 @@ export const BasemapSwitch = ({ basemaps, view }) => {
   const [noBasemap, setNoBasemap] = useState(false);
 
   const handleCheckboxChange = () => {
-    console.log("Clicked checkbox change");
     setNoBasemap(!noBasemap);
     if (!noBasemap) {
       // Save the current basemap when switching to 'No basemap'

@@ -1,41 +1,41 @@
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer.js";
 
-const elevationManipulation = (view) => {
+// const elevationManipulation = (view) => {
 
 
-  const navigateUndergroundInput = document.getElementById(
-    "navigationUnderground"
-  );
+//   const navigateUndergroundInput = document.getElementById(
+//     "navigationUnderground"
+//   );
 
-  const elevationInput = document.getElementById("elevationInput");
+//   const elevationInput = document.getElementById("elevationInput");
 
-  navigateUndergroundInput.addEventListener(
-    "calciteCheckboxChange",
-    (event) => {
-      view.map.ground.navigationConstraint.type = event.target.checked
-        ? "none"
-        : "stay-above";
-    }
-  );
+//   navigateUndergroundInput.addEventListener(
+//     "calciteCheckboxChange",
+//     (event) => {
+//       view.map.ground.navigationConstraint.type = event.target.checked
+//         ? "none"
+//         : "stay-above";
+//     }
+//   );
 
-  elevationInput.addEventListener("calciteCheckboxChange", updateElevation);
+//   elevationInput.addEventListener("calciteCheckboxChange", updateElevation);
 
-  function updateElevation(e) {
-    view.map.ground.layers.forEach((layer) => {
-      layer.visible = e.target.checked;
-    });
-  }
+//   function updateElevation(e) {
+//     view.map.ground.layers.forEach((layer) => {
+//       layer.visible = e.target.checked;
+//     });
+//   }
 
-  const elevationLayerGroup = document.getElementById("elevationModels");
+//   const elevationLayerGroup = document.getElementById("elevationModels");
 
-  elevationLayerGroup.addEventListener("calciteRadioButtonGroupChange", () => {
-    const selectedItem = elevationLayerGroup.selectedItem.value;
+//   elevationLayerGroup.addEventListener("calciteRadioButtonGroupChange", () => {
+//     const selectedItem = elevationLayerGroup.selectedItem.value;
 
-    view.map.ground.layers.forEach((layer) => {
-      layer.visible = layer.id === selectedItem;
-    });
-  });
-};
+//     view.map.ground.layers.forEach((layer) => {
+//       layer.visible = layer.id === selectedItem;
+//     });
+//   });
+// };
 
 const setupElevationLayer = (url, title) => {
   return new ElevationLayer({
@@ -47,4 +47,5 @@ const setupElevationLayer = (url, title) => {
 
 
 
-export { elevationManipulation, setupElevationLayer };
+// export { elevationManipulation, setupElevationLayer };
+export { setupElevationLayer };

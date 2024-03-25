@@ -77,8 +77,6 @@ const getGeologyLayers = (view) => {
 const getVisibleLayers = (view) => {
   
   const { items } = view.map.allLayers;
-  console.log("items", items)
-  console.log(typeof view.map.allLayers)
   const { initVisible } = items.reduce(
     (acc, obj) => {
       if (obj.visible === true) {
