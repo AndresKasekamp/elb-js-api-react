@@ -1,0 +1,214 @@
+@import "@esri/calcite-components/dist/calcite/calcite.css";
+
+.mapDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header-title {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: #ffffff;
+}
+
+table {
+  margin: 1em 0;
+}
+
+.center {
+  text-align: center;
+}
+
+#sketchPanel {
+  width: 300px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.esri-button {
+  margin: 2px;
+}
+
+#configurationDiv {
+  padding: 10px;
+  text-align: left;
+  width: 250px;
+}
+
+#configurationInfoDiv {
+  padding: 7px;
+  text-align: left;
+}
+
+#snappingctrlkey {
+  display: inline;
+}
+
+#actionbuttons,
+#edgeoperationbuttons {
+  display: none;
+}
+
+.update-options {
+  display: flex;
+  flex-direction: row;
+}
+
+.edge-button,
+.shape-button {
+  flex: 1;
+  border-style: solid;
+  border-width: 1px;
+  border-image: none;
+}
+
+.edge-button-selected,
+.shape-button-selected {
+  background: #4c4c4c;
+  color: #fff;
+}
+
+#topbar {
+  background: #fff;
+  padding: 10px;
+}
+
+.action-button {
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid #d3d3d3;
+  color: #6e6e6e;
+  height: 32px;
+  width: 32px;
+  text-align: center;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.action-button:hover,
+.action-button:focus {
+  background: #0079c1;
+  color: #e4e4e4;
+}
+
+.active {
+  background: #0079c1;
+  color: #e4e4e4;
+}
+
+.hide {
+  display: none;
+}
+
+img {
+  border: 10px solid white;
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.action-button2 {
+  padding: 0.6em;
+  border: 1px solid #0079c1;
+  text-align: center;
+  background-color: white;
+  cursor: pointer;
+}
+
+.action-button2:hover,
+.action-button2:focus {
+  background: #0079c1;
+  color: white;
+}
+
+#maskDiv {
+  position: absolute;
+  background: rgba(255, 51, 0, 0.1);
+  border: 2px dashed rgb(255, 51, 0);
+}
+
+.shadowcast-button {
+  border: 0;
+}
+
+.button-container {
+  margin: 5px 0; /* Add spacing between buttons */
+  text-align: left;
+}
+
+#opacitySliderContainer {
+  text-align: center;
+  padding: 1em;
+  margin-bottom: 20px;
+}
+
+#opacity {
+  margin-bottom: 0.5em; /* Adds margin at the bottom of the span element */
+}
+
+#opacitySlider {
+  margin-top: 0.5em; /* Adds margin at the top of the div element */
+  margin-bottom: 0.5em; /* Adds margin at the top of the div element */
+  margin-right: 2em; /* Adds margin at the top of the div element */
+  margin-left: 2em; /* Adds margin at the top of the div element */
+}
+
+#elevationInput,
+#navigationUnderground {
+  margin-left: 0.5em; /* Adds margin at the top of the div element */
+}
+
+#calcite-shell {
+  background: #32774e;
+  background: linear-gradient(to right bottom, #648880, #32774e);
+}
+
+#information-panel {
+  padding: 0.25em;
+}
+
+#in-ads-container {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 350px;
+}
+
+.esri-component.esri-coordinate-conversion.esri-widget {
+  width: 350px;
+  font-size: 11px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.esri-coordinate-conversion__row {
+  padding: 0 5px 0 5px;
+}
+
+#basemapSwitch,
+#elevationModels,
+#navigationUnderground,
+#elevationInput {
+  padding: 0.25em;
+}
+
+#daylight-container,
+#shadowcast-container,
+#sketchPanel {
+  width: 100%; /* Ensure the widget container takes full width */
+  height: 100%; /* Ensure the widget container takes full height */
+}
+
+.responsive-action-bar {
+  flex-wrap: wrap;
+}
+
+#layers-container,
+#wms-layers-container {
+  overflow-y: auto;
+  display: block;
+  height: 50vh;
+}

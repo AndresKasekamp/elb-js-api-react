@@ -1,0 +1,25 @@
+@import "https://js.arcgis.com/4.29/@arcgis/core/assets/esri/themes/light/main.css";
+@import "@esri/calcite-components/dist/calcite/calcite.css";
+
+html,
+body,
+#root {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --calcite-ui-brand: #648880;
+  --calcite-ui-brand-hover: #648880;
+  --calcite-ui-brand-press: #648880;
+}
+
+body {
+  display: flex;
+}
+
+.esri-view .esri-view-surface--touch-none:focus::after {
+  outline: none !important;
+}
+
