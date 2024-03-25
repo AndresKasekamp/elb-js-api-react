@@ -68,9 +68,9 @@ import "@esri/calcite-components/dist/components/calcite-button.js";
 import {
   CalciteShell,
   CalciteShellPanel,
-  CalciteActionBar,
+  // CalciteActionBar,
   CalciteAction,
-  CalciteTooltip,
+  // CalciteTooltip,
   CalciteAlert,
   CalcitePanel,
   // CalciteCheckbox,
@@ -82,6 +82,7 @@ import {
   CalciteButton,
 } from "@esri/calcite-components-react";
 
+import { ActionBar } from "./components/ActionBar/ActionBar.jsx";
 import { BasemapGalleryPanel } from "./components/Basemaps/BasemapGalleryPanel.jsx";
 import { ElevationGalleryPanel } from "./components/Elevation/ElevationGalleryPanel.jsx";
 
@@ -419,7 +420,9 @@ function App() {
         </div>
 
         <CalciteShellPanel slot="panel-start" displayMode="float">
-          <CalciteActionBar slot="action-bar" class="responsive-action-bar">
+          <ActionBar />
+          
+          {/* <CalciteActionBar slot="action-bar" class="responsive-action-bar">
             <CalciteAction
               data-action-id="layers"
               icon="layers"
@@ -502,7 +505,7 @@ function App() {
             <CalciteTooltip reference-element="share-tooltip">
               <span>Share a map</span>
             </CalciteTooltip>
-          </CalciteActionBar>
+          </CalciteActionBar> */}
 
           <CalciteAlert
             id="share-map-alert"
@@ -534,55 +537,6 @@ function App() {
           <BasemapGalleryPanel basemaps={basemaps} view={view} />
 
           <ElevationGalleryPanel view={view} />
-
-          {/* <CalcitePanel
-            heading="Elevation settings"
-            height-scale="l"
-            data-panel-id="elevation"
-            hidden
-          >
-            <CalciteRadioButtonGroup
-              id="elevationModels"
-              name="ElevationModels"
-              layout="vertical"
-            >
-              <CalciteLabel layout="inline">
-                <CalciteRadioButton
-                  id="dtmElevation"
-                  value="987798be0faa561d"
-                  checked
-                ></CalciteRadioButton>
-                DTM
-              </CalciteLabel>
-              <CalciteLabel layout="inline">
-                <CalciteRadioButton
-                  id="apElevation"
-                  value="bae50815bbab6ded"
-                ></CalciteRadioButton>
-                Aluspõhi 50m
-              </CalciteLabel>
-              <CalciteLabel layout="inline">
-                <CalciteRadioButton
-                  id="akElevation"
-                  value="974102ce30be63bb"
-                ></CalciteRadioButton>
-                Aluskord 50m
-              </CalciteLabel>
-            </CalciteRadioButtonGroup>
-
-            <CalciteLabel layout="inline">
-              <CalciteCheckbox
-                id="navigationUnderground"
-                checked
-              ></CalciteCheckbox>
-              Navigate underground
-            </CalciteLabel>
-
-            <CalciteLabel layout="inline">
-              <CalciteCheckbox id="elevationInput" checked></CalciteCheckbox>
-              Elevation
-            </CalciteLabel>
-          </CalcitePanel> */}
 
           <CalcitePanel
             heading="Line of Sight"
