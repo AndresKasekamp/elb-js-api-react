@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 // Esri imports
 import Conversion from "@arcgis/core/widgets/CoordinateConversion/support/Conversion.js";
@@ -13,7 +13,7 @@ import {
   taimkateWorkaround,
   getVisibleLayers,
   compareVisibleLayers,
-  setNoBasemap,
+  // setNoBasemap,
 } from "./modules/layers.js";
 import { setupWebScene, setupWebView } from "./modules/scene.js";
 import {
@@ -82,12 +82,18 @@ import {
   CalciteButton,
 } from "@esri/calcite-components-react";
 
+import { BasemapGalleryPanel } from "./components/BasemapGalleryPanel.jsx";
+// import { BasemapSwitch } from "./components/BasemapSwitch.jsx";
+
 // CSS modules
 import "./App.css";
 import "@esri/calcite-components/dist/calcite/calcite.css";
 
 function App() {
   const mapDiv = useRef(null);
+
+  const [basemaps, setBasemaps] = useState(null);
+  const [view, setView] = useState(null);
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -125,6 +131,7 @@ function App() {
       );
 
       const view = setupWebView(scene, mapDiv.current);
+      setView(view);
 
       view.when(() => {
         /**************************************
@@ -197,10 +204,10 @@ function App() {
          * Basemap gallery
          **************************************/
         const basemaps = setupBasemapGallery(view);
-
+        setBasemaps(basemaps);
         loadWMStile(basemaps, view);
 
-        setNoBasemap(basemaps, view);
+        // setNoBasemap(basemaps, view);
 
         /**************************************
          * Geology layer group
@@ -309,7 +316,6 @@ function App() {
          * Collecting visible layers before modification and rerendering
          **************************************/
         const initVisibleLayers = getVisibleLayers(view);
-        console.log("visible layers", typeof initVisibleLayers);
 
         /**************************************
          * Calcite CSS/JS
@@ -523,34 +529,8 @@ function App() {
           >
             <div id="wms-layers-container"></div>
           </CalcitePanel>
-          <CalcitePanel
-            heading="Basemaps"
-            height-scale="l"
-            data-panel-id="basemaps"
-            hidden
-          >
-            <div id="basemaps-container"></div>
 
-            <CalciteLabel layout="inline">
-              <CalciteCheckbox
-                id="basemapSwitch"
-                scale="l"
-                onCalciteCheckboxChange={() => {
-                  console.log("Clicked checkbox change");
-                }}
-              ></CalciteCheckbox>
-              No basemap
-            </CalciteLabel>
-
-            <CalciteSlider
-              id="opacitySlider"
-              label-handles
-              min={0}
-              max={100}
-              step={1}
-              value={100}
-            ></CalciteSlider>
-          </CalcitePanel>
+          <BasemapGalleryPanel basemaps={basemaps} view={view} />
 
           <CalcitePanel
             heading="Elevation settings"

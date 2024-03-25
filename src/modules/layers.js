@@ -135,22 +135,7 @@ const setNoBasemap = (basemaps, view) => {
   });
 };
 
-const setNoBasemap2 = (basemaps, view) => {
 
-  let currentBasemap;
-  if (basemaps.activeBasemap.title !== "Basemap") {
-    currentBasemap = basemaps.activeBasemap;
-  }
-
-  if (basemapSwitch.checked) {
-    view.map.basemap = {};
-  } else {
-    view.map.basemap = currentBasemap;
-  }
-
-  basemaps.disabled = !basemaps.disabled;
-
-};
 
 
 export {
@@ -163,5 +148,5 @@ export {
   getVisibleLayers,
   compareVisibleLayers,
   setNoBasemap,
-  setNoBasemap2,
+
 };

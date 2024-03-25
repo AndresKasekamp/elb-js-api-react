@@ -1,11 +1,7 @@
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer.js";
 
 const elevationManipulation = (view) => {
-  const opacitySlider = document.getElementById("opacitySlider");
-  opacitySlider.addEventListener("calciteSliderInput", () => {
-    const value = opacitySlider.value / 100;
-    view.map.ground.opacity = value;
-  });
+
 
   const navigateUndergroundInput = document.getElementById(
     "navigationUnderground"
