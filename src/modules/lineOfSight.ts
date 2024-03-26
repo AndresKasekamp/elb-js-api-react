@@ -1,6 +1,7 @@
 import LineOfSight from "@arcgis/core/widgets/LineOfSight.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
-const setupLoS = (view) => {
+export const setupLoS = (view: SceneView) => {
   return new LineOfSight({
     view,
     container: "line-of-sight-container",
@@ -24,4 +25,4 @@ const setupLoS = (view) => {
 //   });
 // };
 
-export { setupLoS };
+

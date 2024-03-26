@@ -12,31 +12,29 @@ import {
   setupGroupLayer,
   taimkateWorkaround,
   getVisibleLayers,
-} from "./modules/layers.js";
-import { setupWebScene, setupWebView } from "./modules/scene.js";
+} from "./modules/layers.ts";
+import { setupWebScene, setupWebView } from "./modules/scene.ts";
 import {
   setupLayerListMain,
   setupLayerListWMS,
   setupBasemapGallery,
   loadWMStile,
   getLayerInfo,
-} from "./modules/layerList.js";
+} from "./modules/layerList.ts";
 import { setupCoordinateWidget, setupNewFormat } from "./modules/coordinate.ts";
-import { setupLoS } from "./modules/lineOfSight.js";
+import { setupLoS } from "./modules/lineOfSight.ts";
 import {
   setupCustomSearchSource,
   setupSearchWidget,
-} from "./modules/search.js";
+} from "./modules/search.ts";
 import { setupSketch } from "./modules/sketch.js";
 import { setupDaylight } from "./modules/daylight.ts";
 import { setupElevationProfile } from "./modules/elevationProfile.ts";
-import { setupMeasurement } from "./modules/measurement.js";
-import { setupShadowCast } from "./modules/shadowCast.js";
-import { setupSlice } from "./modules/slice.js";
-import { setupLocate } from "./modules/locate.js";
-import {
-  setupElevationLayer,
-} from "./modules/elevation.ts";
+import { setupMeasurement } from "./modules/measurement.ts";
+import { setupShadowCast } from "./modules/shadowCast.ts";
+import { setupSlice } from "./modules/slice.ts";
+import { setupLocate } from "./modules/locate.ts";
+import { setupElevationLayer } from "./modules/elevation.ts";
 import {
   getUndergroundInfo,
   getLayerVisibility,
@@ -83,7 +81,8 @@ function App() {
   const [measurement, setMeasurement] = useState(null);
   const [description, setDescription] = useState(null);
   const [initVisibleLayers, setInitVisibleLayers] = useState(null);
-  const [navigationUndergroundButton, setNavigationUndergroundButton] = useState(undefined);
+  const [navigationUndergroundButton, setNavigationUndergroundButton] =
+    useState(undefined);
   const [checkedElevation, setCheckedElevation] = useState(null);
 
   useEffect(() => {
@@ -123,7 +122,7 @@ function App() {
 
       const view = setupWebView(scene, mapDiv.current);
       setView(view);
-      
+
       // Loading twice so both scenes can be active
       geologyView.when(() => {
         view.when(() => {
@@ -318,11 +317,11 @@ function App() {
           const locationArray = getLocation();
 
           const navigationUndergroundButton = getUndergroundInfo(view);
-          setNavigationUndergroundButton(navigationUndergroundButton)
+          setNavigationUndergroundButton(navigationUndergroundButton);
 
           getLayerVisibility(view);
           const checkedElevation = getElevationVisibility(view);
-          setCheckedElevation(checkedElevation)
+          setCheckedElevation(checkedElevation);
 
           if (locationArray !== null) {
             const viewpoint = setupViewPoint(locationArray);
@@ -356,7 +355,11 @@ function App() {
             divId={"wms-layers-container"}
           />
           <BasemapGalleryPanel basemaps={basemaps} view={view} />
-          <ElevationGalleryPanel view={view} navigationUndergroundButton={navigationUndergroundButton} checkedElevation={checkedElevation} />
+          <ElevationGalleryPanel
+            view={view}
+            navigationUndergroundButton={navigationUndergroundButton}
+            checkedElevation={checkedElevation}
+          />
           <LineOfSightPanel />
           <DayLightPanel />
           <ElevationProfilePanel />

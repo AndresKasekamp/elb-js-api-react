@@ -1,8 +1,8 @@
 import WebScene from "@arcgis/core/WebScene.js";
 import SceneView from "@arcgis/core/views/SceneView.js";
+import Layer from "@arcgis/core/layers/Layer.js";
 
-// TODO vaata kas siin saaks lahtipakkimisega teha
-const setupWebScene = (id, ...layers) => {
+export const setupWebScene = (id: string, ...layers: Layer[]) => {
   return new WebScene({
     portalItem: {
       id,
@@ -11,12 +11,10 @@ const setupWebScene = (id, ...layers) => {
   });
 };
 
-const setupWebView = (map, container) => {
+export const setupWebView = (map: WebScene, container: HTMLDivElement) => {
   return new SceneView({
     map,
     container,
     qualityProfile: "high",
   });
 };
-
-export { setupWebScene, setupWebView };

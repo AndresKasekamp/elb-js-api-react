@@ -1,10 +1,10 @@
 import Slice from "@arcgis/core/widgets/Slice.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
-const setupSlice = (view) => {
+export const setupSlice = (view: SceneView) => {
   return new Slice({
     view: view,
     container: "slicing-container",
   });
 };
 
-export { setupSlice };

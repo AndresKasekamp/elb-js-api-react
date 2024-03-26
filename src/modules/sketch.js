@@ -4,6 +4,7 @@
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel.js";
 import Slider from "@arcgis/core/widgets/Slider.js";
 
+
 // Graphic UI parameters
 const blue = [82, 82, 122, 0.9];
 const white = [255, 255, 255, 0.8];
@@ -66,7 +67,7 @@ const point = {
   ],
 };
 
-const setupSketch = (view, graphicsLayer) => {
+export const setupSketch = (view, graphicsLayer) => {
   /**************************************
    * Sketching (1): Init settings
    **************************************/
@@ -166,10 +167,10 @@ const setupSketch = (view, graphicsLayer) => {
     });
   });
 
-  cancelBtn.addEventListener("click", (event) => {
+  cancelBtn.addEventListener("click", () => {
     sketchViewModel.cancel();
   });
-  doneBtn.addEventListener("click", (event) => {
+  doneBtn.addEventListener("click", () => {
     if (sketchViewModel.updateGraphics.length !== 0) {
       sketchViewModel.complete();
     } else {
@@ -265,4 +266,4 @@ const setupSketch = (view, graphicsLayer) => {
   }
 };
 
-export { setupSketch };
+

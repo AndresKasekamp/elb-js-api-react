@@ -1,11 +1,10 @@
 import ShadowCast from "@arcgis/core/widgets/ShadowCast.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
-const setupShadowCast = (view) => {
+export const setupShadowCast = (view: SceneView) => {
   return new ShadowCast({
-    view: view,
+    view,
     visible: false,
     container: "shadowcast-container",
   });
 };
-
-export { setupShadowCast };

@@ -2,14 +2,17 @@
 // TODO selleks peaks aga esmalt listima kõik kihid selle all ära või proovima teha seda esmalt läbi sidemastide
 
 import LayerList from "@arcgis/core/widgets/LayerList.js";
-import Expand from "@arcgis/core/widgets/Expand.js";
+
 import Basemap from "@arcgis/core/Basemap.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
-import { setupSliderStyle } from "./slider.js";
-import { setupLegend, setupLegendStyle } from "./legend.js";
 
-//import { setupSliderStyle } from "./modules/slider.js";
-const basemapIds = [
+import SceneView from "@arcgis/core/views/SceneView.js";
+import Layer from "@arcgis/core/layers/Layer.js";
+
+import { setupSliderStyle } from "./slider.ts";
+import { setupLegend, setupLegendStyle } from "./legend.ts";
+
+const basemapIds: string[] = [
   "be99602fc02d448eb859a0b426c0d5b6",
   "b6517d264b8f467fa5b14c382dfdf87a",
   "c5773442e91c48c392f28af6600169d0",
@@ -20,7 +23,7 @@ const basemapIds = [
 ];
 
 // TODO ettevaatlikult üle toomine
-const setupLayerListMain = (view) => {
+const setupLayerListMain = (view: SceneView) => {
   return new LayerList({
     view,
     container: "layers-container",
@@ -30,7 +33,7 @@ const setupLayerListMain = (view) => {
       await item.layer.when();
 
       // Slider settings
-      const [itemPanelDiv, sliderDiv] = setupSliderStyle(item);
+      const [itemPanelDiv, sliderDiv] = setupSliderStyle();
 
       // Legend settings
       const legendDiv = setupLegendStyle();
@@ -62,6 +65,7 @@ const setupLayerListMain = (view) => {
       }
 
       sliderDiv.addEventListener("calciteSliderInput", () => {
+        // @ts-expect-error - value fix to be done
         const value = sliderDiv.value / 100;
         item.layer.opacity = value;
       });
@@ -99,7 +103,7 @@ const setupLayerListMain = (view) => {
   });
 };
 
-const setupLayerListWMS = (view) => {
+const setupLayerListWMS = (view: SceneView) => {
   return new LayerList({
     view,
     container: "wms-layers-container",
@@ -109,7 +113,7 @@ const setupLayerListWMS = (view) => {
       await item.layer.when();
 
       // Slider settings
-      const [itemPanelDiv, sliderDiv] = setupSliderStyle(item);
+      const [itemPanelDiv, sliderDiv] = setupSliderStyle();
 
       // Legend settings
       const legendDiv = setupLegendStyle();
@@ -138,6 +142,7 @@ const setupLayerListWMS = (view) => {
       // add the layers of the items to the group layer
 
       sliderDiv.addEventListener("calciteSliderInput", () => {
+        // @ts-expect-error - value fix to be done
         const value = sliderDiv.value / 100;
         item.layer.opacity = value;
       });
@@ -157,35 +162,35 @@ const setupLayerListWMS = (view) => {
   });
 };
 
-const setupElevationExpand = (view, content, container = null) => {
-  return new Expand({
-    view,
-    content,
-    container,
-  });
-};
+// const setupElevationExpand = (view: SceneView, content, container: string | HTMLElement | undefined = undefined) => {
+//   return new Expand({
+//     view,
+//     content,
+//     container,
+//   });
+// };
 
-const setupExpand = (
-  toolTipText,
-  view,
-  content,
-  expanded,
-  group,
-  expandIcon = null,
-  container = null
-) => {
-  return new Expand({
-    expandTooltip: toolTipText,
-    view,
-    content,
-    expanded,
-    group,
-    expandIcon,
-    container,
-  });
-};
+// const setupExpand = (
+//   toolTipText,
+//   view,
+//   content,
+//   expanded,
+//   group,
+//   expandIcon = null,
+//   container = null
+// ) => {
+//   return new Expand({
+//     expandTooltip: toolTipText,
+//     view,
+//     content,
+//     expanded,
+//     group,
+//     expandIcon,
+//     container,
+//   });
+// };
 
-const setupBasemapGallery = (view) => {
+const setupBasemapGallery = (view: SceneView) => {
   return new BasemapGallery({
     view,
     container: "basemaps-container",
@@ -201,23 +206,21 @@ const setupBasemapGallery = (view) => {
   });
 };
 
-const loadWMStile = (basemaps, view) => {
-
+const loadWMStile = (basemaps: BasemapGallery, view: SceneView) => {
   basemaps.watch("activeBasemap", () => {
     const isOrtofoto = basemaps.activeBasemap.title === "Ortofoto";
 
     view.watch("zoom", () => {
-      view.map.layers.forEach((layer) => {
+      view.map.layers.forEach((layer: Layer) => {
         if (layer.title === "Ortofoto WMS") {
           layer.visible = isOrtofoto && view.zoom >= 12.5;
         }
       });
     });
-
   });
 };
 
-const getLayerInfo = (layerList, view) => {
+const getLayerInfo = (layerList: LayerList, view: SceneView) => {
   layerList.on("trigger-action", (e) => {
     const layer = e.item.layer;
 
@@ -227,6 +230,7 @@ const getLayerInfo = (layerList, view) => {
     if (id === "information") {
       // If the information action is triggered, then
       // open the item details page of the service layer.
+      // @ts-expect-error - does exist
       window.open(layer.url);
     }
 
@@ -239,8 +243,6 @@ const getLayerInfo = (layerList, view) => {
 export {
   setupLayerListMain,
   setupLayerListWMS,
-  setupElevationExpand,
-  setupExpand,
   setupBasemapGallery,
   loadWMStile,
   getLayerInfo,

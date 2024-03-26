@@ -2,19 +2,29 @@ import Search from "@arcgis/core/widgets/Search.js";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource.js";
 import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
+
 import esriRequest from "@arcgis/core/request.js";
+
 import * as geometryEngine from "@arcgis/core/geometry/geometryEngine.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
-const inAdsUrl = "http://inaadress.maaamet.ee/inaadress/gazetteer/";
+interface Address {
+  pikkaadress: string;
+  unik: string;
+  viitepunkt_l: number;
+  viitepunkt_b: number;
+}
 
-const setupCustomSearchSource = () => {
+const inAdsUrl: string = "http://inaadress.maaamet.ee/inaadress/gazetteer/";
+
+export const setupCustomSearchSource = () => {
   return new SearchSource({
     placeholder: "Search address",
     getSuggestions: async (params) => {
       const keyword = params.suggestTerm;
       const suggestUrl = `${inAdsUrl}?address=${encodeURIComponent(keyword)}`;
       const results = await esriRequest(suggestUrl, { responseType: "json" });
-      return results.data.addresses.map((address) => {
+      return results.data.addresses.map((address: Address) => {
         return {
           text: address.pikkaadress,
           magicKey: address.unik,
@@ -25,7 +35,7 @@ const setupCustomSearchSource = () => {
       const key = params.suggestResult.text;
       const newUrl = `${inAdsUrl}?address=${encodeURIComponent(key)}`;
       const results = await esriRequest(newUrl, { responseType: "json" });
-      const searchResults = results.data.addresses.map((address) => {
+      const searchResults = results.data.addresses.map((address: Address) => {
         const graphic = new Graphic({
           geometry: new Point({
             x: address.viitepunkt_l,
@@ -38,6 +48,7 @@ const setupCustomSearchSource = () => {
           "meters"
         );
         const searchResult = {
+          // @ts-expect-error - weird buffer types
           extent: buffer.extent,
           feature: graphic,
           name: `${address.pikkaadress}`,
@@ -49,7 +60,7 @@ const setupCustomSearchSource = () => {
   });
 };
 
-const setupSearchWidget = (view, sources) => {
+export const setupSearchWidget = (view: SceneView, sources: SearchSource) => {
   return new Search({
     view: view,
     sources: [sources],
@@ -57,5 +68,3 @@ const setupSearchWidget = (view, sources) => {
     container: "in-ads-container",
   });
 };
-
-export { setupCustomSearchSource, setupSearchWidget };

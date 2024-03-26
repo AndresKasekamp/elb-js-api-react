@@ -2,6 +2,8 @@ import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import SceneLayer from "@arcgis/core/layers/SceneLayer.js";
 import WMSLayer from "@arcgis/core/layers/WMSLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
+import Layer from "@arcgis/core/layers/Layer.js"
 
 const setupGraphicsLayer = () => {
   return new GraphicsLayer({
@@ -10,7 +12,7 @@ const setupGraphicsLayer = () => {
   });
 };
 
-const setupInternalLayer = (id, title) => {
+const setupInternalLayer = (id: string, title: string) => {
   return new SceneLayer({
     portalItem: {
       id,
@@ -30,7 +32,7 @@ const setupWMSLayer = () => {
   });
 };
 
-const setupGroupLayer = (title, visibilityMode, visible = false) => {
+const setupGroupLayer = (title: string, visibilityMode: "independent" | "inherited" | "exclusive", visible = false) => {
   return new GroupLayer({
     title,
     visible,
@@ -38,7 +40,7 @@ const setupGroupLayer = (title, visibilityMode, visible = false) => {
   });
 };
 
-const taimkateWorkaround = (treeGroupLayer, view) => {
+const taimkateWorkaround = (treeGroupLayer: GroupLayer, view: SceneView) => {
   const taimkateAnalytical = view.map.allLayers.find(
     (layer) => layer.title === "Taimkate analüütiline"
   );
@@ -52,15 +54,16 @@ const taimkateWorkaround = (treeGroupLayer, view) => {
   view.map.removeMany([taimkateAnalytical, taimkateRealistic]);
 };
 
-const getGeologyLayers = (view) => {
-  const geologyLayerTitles = [
+const getGeologyLayers = (view: SceneView) => {
+  
+  const geologyLayerTitles: string[] = [
     "Andmepunktid",
     "Puurkaevud/puuraugud", // DEPRECATED, inside Andmepunktid for now
     "Ehitusgeoloogia",
     "Geoloogia WMS",
   ];
 
-  const geologyLayers = {};
+  const geologyLayers: Record<string, Layer> = {};
   view.map.layers.forEach((layer) => {
     const layerTitle = layer.title;
     if (geologyLayerTitles.includes(layerTitle)) {
@@ -74,9 +77,11 @@ const getGeologyLayers = (view) => {
   return { items: returnLayers };
 };
 
-const getVisibleLayers = (view) => {
+const getVisibleLayers = (view: SceneView) => {
+  // @ts-expect-error - items 
   const { items } = view.map.allLayers;
   const { initVisible } = items.reduce(
+    // @ts-expect-error - items 
     (acc, obj) => {
       if (obj.visible === true) {
         acc.initVisible.push(obj);
@@ -89,14 +94,15 @@ const getVisibleLayers = (view) => {
   return initVisible;
 };
 
-const compareVisibleLayers = (initVisibleLayers, visibleLayersCurrently) => {
+const compareVisibleLayers = (initVisibleLayers: Layer[], visibleLayersCurrently: Layer[]) => {
   const difference1 = initVisibleLayers.filter(
     (item) => !visibleLayersCurrently.includes(item)
   );
   const difference2 = visibleLayersCurrently.filter(
     (item) => !initVisibleLayers.includes(item)
   );
-
+  
+  // @ts-expect-error - object deconstrucint
   const getTitle = (obj) => obj.title;
   const layerVisibilityChanged = [
     ...difference1.map(getTitle),

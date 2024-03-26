@@ -10,7 +10,7 @@ import {
 } from "@esri/calcite-components-react";
 
 import { ShareMapAlert } from "../ShareMap/ShareMapAlert";
-import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers";
+import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers.ts";
 import { createURL, copyTextToClipboard } from "../../modules/goToLocation.ts";
 
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
