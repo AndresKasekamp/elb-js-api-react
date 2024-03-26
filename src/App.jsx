@@ -68,7 +68,7 @@ import "@esri/calcite-components/dist/components/calcite-button.js";
 import {
   CalciteShell,
   CalciteShellPanel,
-  CalciteAction,
+  // CalciteAction,
   // CalciteAlert,
   CalcitePanel,
   // CalciteLabel,
@@ -83,10 +83,13 @@ import { ShareMapAlert } from "./components/ShareMap/ShareMapAlert.jsx";
 import { LayerPanel } from "./components/LayerPanel/LayerPanel.jsx";
 import { LineOfSightPanel } from "./components/Analysis/LineOfSightPanel.jsx";
 import { DayLightPanel } from "./components/Analysis/DayLightPanel.jsx";
+import { ElevationProfilePanel } from "./components/Analysis/ElevationProfilePanel.jsx";
+import { MeasurementPanel } from "./components/Analysis/MeasurementPanel.jsx";
 
 // CSS modules
 import "./App.css";
 import "@esri/calcite-components/dist/calcite/calcite.css";
+
 
 function App() {
   const mapDiv = useRef(null);
@@ -95,6 +98,7 @@ function App() {
   const [basemaps, setBasemaps] = useState(null);
   const [view, setView] = useState(null);
   const [shadowCast, setShadowcast] = useState(null)
+  const [measurement, setMeasurement] = useState(null)
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -273,7 +277,8 @@ function App() {
          *  Measurement 3D
          **************************************/
 
-        setupMeasurement(view);
+        const measurement = setupMeasurement(view);
+        setMeasurement(measurement)
 
         /**************************************
          * Slicing
@@ -327,65 +332,6 @@ function App() {
         const shadowCast = setupShadowCast(view);
         setShadowcast(shadowCast)
 
-        // let activeWidget;
-
-        // const handleActionBarClick = ({ target }) => {
-        //   if (target.tagName !== "CALCITE-ACTION") {
-        //     return;
-        //   }
-
-        //   if (activeWidget) {
-        //     document.querySelector(
-        //       `[data-action-id=${activeWidget}]`
-        //     ).active = false;
-        //     document.querySelector(
-        //       `[data-panel-id=${activeWidget}]`
-        //     ).hidden = true;
-        //   }
-
-        //   const nextWidget = target.dataset.actionId;
-        //   if (nextWidget !== activeWidget) {
-        //     document.querySelector(
-        //       `[data-action-id=${nextWidget}]`
-        //     ).active = true;
-        //     document.querySelector(
-        //       `[data-panel-id=${nextWidget}]`
-        //     ).hidden = false;
-        //     activeWidget = nextWidget;
-        //   } else {
-        //     activeWidget = null;
-        //   }
-
-        //   if (nextWidget === "shadowCast") {
-        //     shadowCast.visible = !shadowCast.visible;
-        //   }
-
-        //   if (nextWidget === "share") {
-        //     const visibleLayersCurrently = getVisibleLayers(view);
-
-        //     const [regularLayers, elevationChanged] = compareVisibleLayers(
-        //       initVisibleLayers,
-        //       visibleLayersCurrently
-        //     );
-
-        //     const sharedLocation = createURL(
-        //       view,
-        //       regularLayers,
-        //       elevationChanged
-        //     );
-        //     copyTextToClipboard(sharedLocation);
-
-        //     // Displaying popup
-        //     const shareMapAlert = document.getElementById("share-map-alert");
-        //     shareMapAlert.open = "true";
-        //   }
-        // };
-
-        // document
-        //   .querySelector("calcite-action-bar")
-        //   .addEventListener("click", handleActionBarClick);
-
-
 
         /**************************************
          * Parsing URL if sharing is used
@@ -424,48 +370,8 @@ function App() {
 
           <LineOfSightPanel />
           <DayLightPanel />
-
-{/* 
-          <CalcitePanel height-scale="l" data-panel-id="daylight" hidden>
-            <div id="daylight-container"></div>
-          </CalcitePanel> */}
-
-          <CalcitePanel
-            heading="Elevation profile"
-            height-scale="l"
-            data-panel-id="elevationProfile"
-            hidden
-          >
-            <div id="elevation-profile-container"></div>
-          </CalcitePanel>
-
-          <CalcitePanel
-            heading="Measurements"
-            width-scale="s"
-            height-scale="l"
-            data-panel-id="measurement"
-            hidden
-          >
-            <CalciteAction
-              id="distanceButton"
-              icon="measure-line"
-              text="Measure line"
-              text-enabled
-            ></CalciteAction>
-            <CalciteAction
-              id="areaButton"
-              icon="measure-area"
-              text="Measure area"
-              text-enabled
-            ></CalciteAction>
-            <CalciteAction
-              id="clearButton"
-              icon="trash"
-              text="Clear"
-              text-enabled
-            ></CalciteAction>
-            <div id="measurement-container"></div>
-          </CalcitePanel>
+          <ElevationProfilePanel />
+          <MeasurementPanel measurement={measurement} />
 
           <CalcitePanel height-scale="l" data-panel-id="shadowCast" hidden>
             <div id="shadowcast-container"></div>

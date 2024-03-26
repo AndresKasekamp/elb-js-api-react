@@ -15,7 +15,7 @@ const setupWebView = (map, container) => {
   return new SceneView({
     map,
     container,
-    qualityProfile: "low",
+    qualityProfile: "high",
   });
 };
 
