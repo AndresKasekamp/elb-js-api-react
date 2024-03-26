@@ -12,7 +12,7 @@ import {
   setupGroupLayer,
   taimkateWorkaround,
   getVisibleLayers,
-  compareVisibleLayers,
+  // compareVisibleLayers,
   // setNoBasemap,
 } from "./modules/layers.js";
 import { setupWebScene, setupWebView } from "./modules/scene.js";
@@ -22,9 +22,9 @@ import {
   setupBasemapGallery,
   loadWMStile,
   getLayerInfo,
-} from "./modules/layerList";
+} from "./modules/layerList.js";
 import { setupCoordinateWidget, setupNewFormat } from "./modules/coordinate.js";
-import { setupLoS, getStartPoint } from "./modules/lineOfSight.js";
+import { setupLoS } from "./modules/lineOfSight.js";
 import {
   setupCustomSearchSource,
   setupSearchWidget,
@@ -40,15 +40,15 @@ import {
   // elevationManipulation,
   setupElevationLayer,
 } from "./modules/elevation.js";
-import {
-  getUndergroundInfo,
-  getLayerVisibility,
-  getElevationVisibility,
-  getLocation,
-  copyTextToClipboard,
-  createURL,
-  setupViewPoint,
-} from "./modules/goToLocation.js";
+// import {
+//   getUndergroundInfo,
+//   getLayerVisibility,
+//   getElevationVisibility,
+//   getLocation,
+//   copyTextToClipboard,
+//   createURL,
+//   setupViewPoint,
+// } from "./modules/goToLocation.js";
 
 // Calcite components
 import "@esri/calcite-components/dist/components/calcite-shell.js";
@@ -56,7 +56,7 @@ import "@esri/calcite-components/dist/components/calcite-shell-panel.js";
 import "@esri/calcite-components/dist/components/calcite-action-bar.js";
 import "@esri/calcite-components/dist/components/calcite-action.js";
 import "@esri/calcite-components/dist/components/calcite-tooltip.js";
-import "@esri/calcite-components/dist/components/calcite-alert.js";
+// import "@esri/calcite-components/dist/components/calcite-alert.js";
 import "@esri/calcite-components/dist/components/calcite-panel.js";
 import "@esri/calcite-components/dist/components/calcite-checkbox.js";
 import "@esri/calcite-components/dist/components/calcite-label.js";
@@ -69,16 +69,20 @@ import {
   CalciteShell,
   CalciteShellPanel,
   CalciteAction,
-  CalciteAlert,
+  // CalciteAlert,
   CalcitePanel,
-  CalciteLabel,
-  CalciteInputText,
-  CalciteButton,
+  // CalciteLabel,
+  // CalciteInputText,
+  // CalciteButton,
 } from "@esri/calcite-components-react";
 
 import { ActionBar } from "./components/ActionBar/ActionBar.jsx";
 import { BasemapGalleryPanel } from "./components/Basemaps/BasemapGalleryPanel.jsx";
 import { ElevationGalleryPanel } from "./components/Elevation/ElevationGalleryPanel.jsx";
+import { ShareMapAlert } from "./components/ShareMap/ShareMapAlert.jsx";
+import { LayerPanel } from "./components/LayerPanel/LayerPanel.jsx";
+import { LineOfSightPanel } from "./components/Analysis/LineOfSightPanel.jsx";
+import { DayLightPanel } from "./components/Analysis/DayLightPanel.jsx";
 
 // CSS modules
 import "./App.css";
@@ -87,8 +91,10 @@ import "@esri/calcite-components/dist/calcite/calcite.css";
 function App() {
   const mapDiv = useRef(null);
 
+  // States to be used in component
   const [basemaps, setBasemaps] = useState(null);
   const [view, setView] = useState(null);
+  const [shadowCast, setShadowcast] = useState(null)
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -144,7 +150,7 @@ function App() {
         const geologyWMS = geologyLayers.items.find(
           (layer) => layer.title === "Geoloogia WMS"
         );
-        geologyWMS.visible = false;
+        // geologyWMS.visible = false;
 
         // Adding other DTM layers layers
         view.map.ground.layers.addMany([apDTM, akDTM]);
@@ -168,7 +174,7 @@ function App() {
         /**************************************
          * Line of Sight analysis custom
          **************************************/
-        getStartPoint(view);
+        // getStartPoint(view);
 
         /**************************************
          * Reworking taimkate logic
@@ -311,6 +317,7 @@ function App() {
          * Collecting visible layers before modification and rerendering
          **************************************/
         const initVisibleLayers = getVisibleLayers(view);
+        console.log("Init visible layers", initVisibleLayers)
 
         /**************************************
          * Calcite CSS/JS
@@ -318,64 +325,65 @@ function App() {
 
         // TODO võiks ka eraldi calcite funktsioonideks kirjutada
         const shadowCast = setupShadowCast(view);
+        setShadowcast(shadowCast)
 
-        let activeWidget;
+        // let activeWidget;
 
-        const handleActionBarClick = ({ target }) => {
-          if (target.tagName !== "CALCITE-ACTION") {
-            return;
-          }
+        // const handleActionBarClick = ({ target }) => {
+        //   if (target.tagName !== "CALCITE-ACTION") {
+        //     return;
+        //   }
 
-          if (activeWidget) {
-            document.querySelector(
-              `[data-action-id=${activeWidget}]`
-            ).active = false;
-            document.querySelector(
-              `[data-panel-id=${activeWidget}]`
-            ).hidden = true;
-          }
+        //   if (activeWidget) {
+        //     document.querySelector(
+        //       `[data-action-id=${activeWidget}]`
+        //     ).active = false;
+        //     document.querySelector(
+        //       `[data-panel-id=${activeWidget}]`
+        //     ).hidden = true;
+        //   }
 
-          const nextWidget = target.dataset.actionId;
-          if (nextWidget !== activeWidget) {
-            document.querySelector(
-              `[data-action-id=${nextWidget}]`
-            ).active = true;
-            document.querySelector(
-              `[data-panel-id=${nextWidget}]`
-            ).hidden = false;
-            activeWidget = nextWidget;
-          } else {
-            activeWidget = null;
-          }
+        //   const nextWidget = target.dataset.actionId;
+        //   if (nextWidget !== activeWidget) {
+        //     document.querySelector(
+        //       `[data-action-id=${nextWidget}]`
+        //     ).active = true;
+        //     document.querySelector(
+        //       `[data-panel-id=${nextWidget}]`
+        //     ).hidden = false;
+        //     activeWidget = nextWidget;
+        //   } else {
+        //     activeWidget = null;
+        //   }
 
-          if (nextWidget === "shadowCast") {
-            shadowCast.visible = !shadowCast.visible;
-          }
+        //   if (nextWidget === "shadowCast") {
+        //     shadowCast.visible = !shadowCast.visible;
+        //   }
 
-          if (nextWidget === "share") {
-            const visibleLayersCurrently = getVisibleLayers(view);
+        //   if (nextWidget === "share") {
+        //     const visibleLayersCurrently = getVisibleLayers(view);
 
-            const [regularLayers, elevationChanged] = compareVisibleLayers(
-              initVisibleLayers,
-              visibleLayersCurrently
-            );
+        //     const [regularLayers, elevationChanged] = compareVisibleLayers(
+        //       initVisibleLayers,
+        //       visibleLayersCurrently
+        //     );
 
-            const sharedLocation = createURL(
-              view,
-              regularLayers,
-              elevationChanged
-            );
-            copyTextToClipboard(sharedLocation);
+        //     const sharedLocation = createURL(
+        //       view,
+        //       regularLayers,
+        //       elevationChanged
+        //     );
+        //     copyTextToClipboard(sharedLocation);
 
-            // Displaying popup
-            const shareMapAlert = document.getElementById("share-map-alert");
-            shareMapAlert.open = "true";
-          }
-        };
+        //     // Displaying popup
+        //     const shareMapAlert = document.getElementById("share-map-alert");
+        //     shareMapAlert.open = "true";
+        //   }
+        // };
 
-        document
-          .querySelector("calcite-action-bar")
-          .addEventListener("click", handleActionBarClick);
+        // document
+        //   .querySelector("calcite-action-bar")
+        //   .addEventListener("click", handleActionBarClick);
 
 
 
@@ -384,15 +392,15 @@ function App() {
          **************************************/
 
         // Going to specified location at runtime
-        const locationArray = getLocation();
-        getUndergroundInfo(view);
-        getLayerVisibility(view);
-        getElevationVisibility(view);
+        // const locationArray = getLocation();
+        // getUndergroundInfo(view);
+        // getLayerVisibility(view);
+        // getElevationVisibility(view);
 
-        if (locationArray !== null) {
-          const viewpoint = setupViewPoint(locationArray);
-          view.goTo(viewpoint, { animate: false });
-        }
+        // if (locationArray !== null) {
+        //   const viewpoint = setupViewPoint(locationArray);
+        //   view.goTo(viewpoint, { animate: false });
+        // }
       });
     }
   }, [mapDiv]);
@@ -406,82 +414,21 @@ function App() {
         </div>
 
         <CalciteShellPanel slot="panel-start" displayMode="float">
-          <ActionBar view={view} />
+          <ActionBar view={view} shadowCast={shadowCast} />
+          <ShareMapAlert />
 
-          <CalciteAlert
-            id="share-map-alert"
-            label="share-map-alert"
-            auto-close
-            auto-close-duration="fast"
-            kind="success"
-          >
-            <div slot="message">Copied map location to the clipboard</div>
-          </CalciteAlert>
-
-          <CalcitePanel
-            heading="Layers"
-            height-scale="l"
-            data-panel-id="layers"
-            hidden
-          >
-            <div id="layers-container"></div>
-          </CalcitePanel>
-          <CalcitePanel
-            heading="WMS"
-            height-scale="l"
-            data-panel-id="layers-wms"
-            hidden
-          >
-            <div id="wms-layers-container"></div>
-          </CalcitePanel>
-
+          <LayerPanel heading={"Layers"} dataPanelId={"layers"} divId={"layers-container"}  />
+          <LayerPanel heading={"WMS"} dataPanelId={"layers-wms"} divId={"wms-layers-container"} />
           <BasemapGalleryPanel basemaps={basemaps} view={view} />
-
           <ElevationGalleryPanel view={view} />
 
-          <CalcitePanel
-            heading="Line of Sight"
-            height-scale="l"
-            data-panel-id="lineOfSight"
-            hidden
-          >
-            <div id="line-of-sight-container"></div>
-            <CalciteLabel>
-              Start coordinates
-              <form id="losForm">
-                <CalciteInputText
-                  id="xLOSstart"
-                  name="xLOSstart"
-                  prefix-text="X-coordinate"
-                  value=""
-                ></CalciteInputText>
-                <CalciteInputText
-                  id="yLOSstart"
-                  name="yLOSstart"
-                  prefix-text="Y-coordinate"
-                  value=""
-                ></CalciteInputText>
-                <CalciteInputText
-                  id="zLoSstart"
-                  name="zLOSstart"
-                  prefix-text="Z-coordinate"
-                  value=""
-                ></CalciteInputText>
-              </form>
-              <CalciteButton
-                form="losForm"
-                id="LoSstartBtn"
-                name="LoSstartBtn"
-                width="half"
-              >
-                Submit
-              </CalciteButton>
-            </CalciteLabel>
-          </CalcitePanel>
+          <LineOfSightPanel />
+          <DayLightPanel />
 
+{/* 
           <CalcitePanel height-scale="l" data-panel-id="daylight" hidden>
             <div id="daylight-container"></div>
-          </CalcitePanel>
+          </CalcitePanel> */}
 
           <CalcitePanel
             heading="Elevation profile"

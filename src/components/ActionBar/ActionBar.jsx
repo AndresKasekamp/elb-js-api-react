@@ -9,8 +9,51 @@ import {
   CalciteTooltip,
 } from "@esri/calcite-components-react";
 
-export const ActionBar = ({ view }) => {
+export const ActionBar = ({ view, shadowCast }) => {
   const [actionbar, setActionbar] = useState(false);
+  const [activeWidget, setActiveWidget] = useState(null);
+
+  const handleActionBarClick = (e) => {
+    console.log("Clicked on handle action bar ", e);
+    if (e.target.tagName !== "CALCITE-ACTION") {
+      return;
+    }
+
+    if (activeWidget) {
+      document.querySelector(`[data-action-id=${activeWidget}]`).active = false;
+      document.querySelector(`[data-panel-id=${activeWidget}]`).hidden = true;
+    }
+
+    const nextWidget = e.target.dataset.actionId;
+    if (nextWidget !== activeWidget) {
+      document.querySelector(`[data-action-id=${nextWidget}]`).active = true;
+      document.querySelector(`[data-panel-id=${nextWidget}]`).hidden = false;
+      setActiveWidget(nextWidget)
+    } else {
+      setActiveWidget(null)
+    }
+
+    if (nextWidget === "shadowCast") {
+      shadowCast.visible = !shadowCast.visible;
+    }
+
+    // TODO see jama korda teha
+    if (nextWidget === "share") {
+      // const visibleLayersCurrently = getVisibleLayers(view);
+
+      // const [regularLayers, elevationChanged] = compareVisibleLayers(
+      //   initVisibleLayers,
+      //   visibleLayersCurrently
+      // );
+
+      // const sharedLocation = createURL(view, regularLayers, elevationChanged);
+      // copyTextToClipboard(sharedLocation);
+
+      // Displaying popup
+      const shareMapAlert = document.getElementById("share-map-alert");
+      shareMapAlert.open = "true";
+    }
+  };
 
   const handleActionBarToggle = () => {
     setActionbar(!actionbar);
@@ -23,6 +66,7 @@ export const ActionBar = ({ view }) => {
         slot="action-bar"
         class="responsive-action-bar"
         onCalciteActionBarToggle={handleActionBarToggle}
+        onClick={handleActionBarClick}
       >
         <CalciteAction
           data-action-id="layers"
@@ -110,3 +154,61 @@ export const ActionBar = ({ view }) => {
     </>
   );
 };
+
+// let activeWidget;
+
+// const handleActionBarClick = ({ target }) => {
+//   if (target.tagName !== "CALCITE-ACTION") {
+//     return;
+//   }
+
+//   if (activeWidget) {
+//     document.querySelector(
+//       `[data-action-id=${activeWidget}]`
+//     ).active = false;
+//     document.querySelector(
+//       `[data-panel-id=${activeWidget}]`
+//     ).hidden = true;
+//   }
+
+//   const nextWidget = target.dataset.actionId;
+//   if (nextWidget !== activeWidget) {
+//     document.querySelector(
+//       `[data-action-id=${nextWidget}]`
+//     ).active = true;
+//     document.querySelector(
+//       `[data-panel-id=${nextWidget}]`
+//     ).hidden = false;
+//     activeWidget = nextWidget;
+//   } else {
+//     activeWidget = null;
+//   }
+
+//   if (nextWidget === "shadowCast") {
+//     shadowCast.visible = !shadowCast.visible;
+//   }
+
+//   if (nextWidget === "share") {
+//     const visibleLayersCurrently = getVisibleLayers(view);
+
+//     const [regularLayers, elevationChanged] = compareVisibleLayers(
+//       initVisibleLayers,
+//       visibleLayersCurrently
+//     );
+
+//     const sharedLocation = createURL(
+//       view,
+//       regularLayers,
+//       elevationChanged
+//     );
+//     copyTextToClipboard(sharedLocation);
+
+//     // Displaying popup
+//     const shareMapAlert = document.getElementById("share-map-alert");
+//     shareMapAlert.open = "true";
+//   }
+// };
+
+// document
+//   .querySelector("calcite-action-bar")
+//   .addEventListener("click", handleActionBarClick);
