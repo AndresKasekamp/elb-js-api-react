@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "@esri/calcite-components/dist/components/calcite-action-bar.js";
 import "@esri/calcite-components/dist/components/calcite-action.js";
@@ -9,10 +9,21 @@ import {
   CalciteTooltip,
 } from "@esri/calcite-components-react";
 
-export const ActionBar = () => {
+export const ActionBar = ({ view }) => {
+  const [actionbar, setActionbar] = useState(false);
+
+  const handleActionBarToggle = () => {
+    setActionbar(!actionbar);
+    view.padding = { left: actionbar ? 135 : 49 };
+  };
+
   return (
     <>
-      <CalciteActionBar slot="action-bar" class="responsive-action-bar">
+      <CalciteActionBar
+        slot="action-bar"
+        class="responsive-action-bar"
+        onCalciteActionBarToggle={handleActionBarToggle}
+      >
         <CalciteAction
           data-action-id="layers"
           icon="layers"
@@ -99,5 +110,3 @@ export const ActionBar = () => {
     </>
   );
 };
-
-
