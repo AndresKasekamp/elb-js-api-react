@@ -1,27 +1,34 @@
 import Viewpoint from "@arcgis/core/Viewpoint.js";
 import Camera from "@arcgis/core/Camera.js";
 import Point from "@arcgis/core/geometry/Point.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
-const getUndergroundInfo = (view) => {
+// TODO siin on väga palju state asju, mida tasuks üle vaadata
+
+const getUndergroundInfo = (view: SceneView) => {
   const urlString = new URL(window.location.href);
   const url = new URLSearchParams(urlString.search);
   const undergroundParam = url.get("underground");
   if (undergroundParam === "true") {
     // Changing visualisation and settings in back end
-    const navigateUndergroundInput = document.getElementById(
-      "navigationUnderground"
-    );
-    navigateUndergroundInput.checked = true;
+    // const navigateUndergroundInput = document.getElementById(
+    //   "navigationUnderground"
+    // );
+    // navigateUndergroundInput.checked = true;
     view.map.ground.navigationConstraint.type = "none";
+    return true
   }
+  return undefined
 };
 
-const getLayerVisibility = (view) => {
+// TODO ts üle vaadata siin
+const getLayerVisibility = (view: SceneView) => {
   const urlString = new URL(window.location.href);
   const url = new URLSearchParams(urlString.search);
   const layersParamStr = url.get("layers");
   if (layersParamStr !== null) {
     const layersParamArr = layersParamStr.split(",");
+    // @ts-expect-error - ts does not about items
     view.map.allLayers.items.forEach((obj) => {
       if (layersParamArr.includes(obj.title)) {
         obj.visible = !obj.visible;
@@ -30,24 +37,28 @@ const getLayerVisibility = (view) => {
   }
 };
 
-const getElevationVisibility = (view) => {
+const getElevationVisibility = (view: SceneView) => {
   const urlString = new URL(window.location.href);
   const url = new URLSearchParams(urlString.search);
   const layersParamStr = url.get("elevation");
   if (layersParamStr !== null) {
     const layersParamArr = layersParamStr.split(",");
 
+    let checkedElevation
     // Front end
     layersParamArr.forEach((obj) => {
       if (obj === "Kõrgusmudel") {
-        const elevationModel = document.getElementById("dtmElevation");
-        elevationModel.checked = "false";
+        checkedElevation = "dtmElevation"
+        // const elevationModel = document.getElementById("dtmElevation");
+        // elevationModel.checked = "false";
       } else if (obj === "Aluspõhi 50m") {
-        const elevationModel = document.getElementById("apElevation");
-        elevationModel.checked = "true";
+        checkedElevation = "apElevation"
+        // const elevationModel = document.getElementById("apElevation");
+        // elevationModel.checked = "true";
       } else if (obj === "Aluskord 50m") {
-        const elevationModel = document.getElementById("akElevation");
-        elevationModel.checked = "true";
+        checkedElevation = "akElevation"
+        // const elevationModel = document.getElementById("akElevation");
+        // elevationModel.checked = "true";
       }
     });
 
@@ -57,7 +68,11 @@ const getElevationVisibility = (view) => {
         obj.visible = !obj.visible;
       }
     });
+
+    return checkedElevation
   }
+
+  return "dtmElevation"
 };
 
 const getLocation = () => {
@@ -86,11 +101,12 @@ const getLocation = () => {
   return null;
 };
 
-const copyTextToClipboard = async (text) => {
+const copyTextToClipboard = async (text: string) => {
   await navigator.clipboard.writeText(text);
 };
 
-const createURL = (view, regularLayers, elevationLayers) => {
+// TODO elevation layer visibility määramine üle vaadata, praegu on ebaloogiline arrays hoida
+const createURL = (view: SceneView, regularLayers: string[], elevationLayers: string[]) => {
   const currentURL = window.location.href;
   const urlWithoutParams = new URL(currentURL.split("?")[0]);
   const viewpoint = view.viewpoint;
@@ -117,7 +133,7 @@ const createURL = (view, regularLayers, elevationLayers) => {
   return urlWithoutParams.toString();
 };
 
-const setupViewPoint = (locationArray) => {
+const setupViewPoint = (locationArray: number[]) => {
   const [
     locationX,
     locationY,

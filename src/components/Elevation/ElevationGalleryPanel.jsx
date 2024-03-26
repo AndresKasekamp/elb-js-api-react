@@ -6,7 +6,7 @@ import { ElevationRadioButtons } from "./ElevationRadioButtons";
 import { NavigateUnderground } from "./NavigateUnderground";
 import { ElevationCheck } from "./ElevationCheck";
 
-export const ElevationGalleryPanel = ({ view }) => {
+export const ElevationGalleryPanel = ({ view, navigationUndergroundButton, checkedElevation }) => {
   return (
     <>
       <CalcitePanel
@@ -15,8 +15,8 @@ export const ElevationGalleryPanel = ({ view }) => {
         data-panel-id="elevation"
         hidden
       >
-        <ElevationRadioButtons view={view} />
-        <NavigateUnderground view={view} />
+        <ElevationRadioButtons view={view} checkedElevation={checkedElevation} />
+        <NavigateUnderground view={view} navigationUndergroundButton={navigationUndergroundButton} />
         <ElevationCheck view={view} />
       </CalcitePanel>
     </>

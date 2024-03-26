@@ -21,29 +21,29 @@ import {
   loadWMStile,
   getLayerInfo,
 } from "./modules/layerList.js";
-import { setupCoordinateWidget, setupNewFormat } from "./modules/coordinate.js";
+import { setupCoordinateWidget, setupNewFormat } from "./modules/coordinate.ts";
 import { setupLoS } from "./modules/lineOfSight.js";
 import {
   setupCustomSearchSource,
   setupSearchWidget,
 } from "./modules/search.js";
 import { setupSketch } from "./modules/sketch.js";
-import { setupDaylight } from "./modules/daylight.js";
-import { setupElevationProfile } from "./modules/elevationProfile.js";
+import { setupDaylight } from "./modules/daylight.ts";
+import { setupElevationProfile } from "./modules/elevationProfile.ts";
 import { setupMeasurement } from "./modules/measurement.js";
 import { setupShadowCast } from "./modules/shadowCast.js";
 import { setupSlice } from "./modules/slice.js";
 import { setupLocate } from "./modules/locate.js";
 import {
   setupElevationLayer,
-} from "./modules/elevation.js";
+} from "./modules/elevation.ts";
 import {
   getUndergroundInfo,
   getLayerVisibility,
   getElevationVisibility,
   getLocation,
   setupViewPoint,
-} from "./modules/goToLocation.js";
+} from "./modules/goToLocation.ts";
 
 // Calcite components
 import "@esri/calcite-components/dist/components/calcite-shell.js";
@@ -83,6 +83,8 @@ function App() {
   const [measurement, setMeasurement] = useState(null);
   const [description, setDescription] = useState(null);
   const [initVisibleLayers, setInitVisibleLayers] = useState(null);
+  const [navigationUndergroundButton, setNavigationUndergroundButton] = useState(undefined);
+  const [checkedElevation, setCheckedElevation] = useState(null);
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -150,7 +152,6 @@ function App() {
            **************************************/
           // TODO siin on ikka raw HTML probleem
           const { description } = scene.portalItem;
-          console.log("Description", description)
           setDescription(description);
 
           /**************************************
@@ -315,9 +316,13 @@ function App() {
 
           // Going to specified location at runtime
           const locationArray = getLocation();
-          getUndergroundInfo(view);
+
+          const navigationUndergroundButton = getUndergroundInfo(view);
+          setNavigationUndergroundButton(navigationUndergroundButton)
+
           getLayerVisibility(view);
-          getElevationVisibility(view);
+          const checkedElevation = getElevationVisibility(view);
+          setCheckedElevation(checkedElevation)
 
           if (locationArray !== null) {
             const viewpoint = setupViewPoint(locationArray);
@@ -351,7 +356,7 @@ function App() {
             divId={"wms-layers-container"}
           />
           <BasemapGalleryPanel basemaps={basemaps} view={view} />
-          <ElevationGalleryPanel view={view} />
+          <ElevationGalleryPanel view={view} navigationUndergroundButton={navigationUndergroundButton} checkedElevation={checkedElevation} />
           <LineOfSightPanel />
           <DayLightPanel />
           <ElevationProfilePanel />

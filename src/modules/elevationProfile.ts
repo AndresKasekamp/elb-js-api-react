@@ -1,7 +1,7 @@
-// TODO ürita Maa-ameti DSM/CHM alla tuua?
 import ElevationProfile from "@arcgis/core/widgets/ElevationProfile.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
-const setupElevationProfile = (view) => {
+export const setupElevationProfile = (view: SceneView) => {
   return new ElevationProfile({
     view,
     container: "elevation-profile-container",
@@ -20,5 +20,3 @@ const setupElevationProfile = (view) => {
     },
   });
 };
-
-export { setupElevationProfile };

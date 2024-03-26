@@ -1,16 +1,18 @@
 import CoordinateConversion from "@arcgis/core/widgets/CoordinateConversion.js";
 import Format from "@arcgis/core/widgets/CoordinateConversion/support/Format.js";
 import Point from "@arcgis/core/geometry/Point.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
+// eslint-disable-next-line no-useless-escape
 const numberSearchPattern = /-?\d+[\.]?\d*/;
 
-const setupCoordinateWidget = (view) => {
+export const setupCoordinateWidget = (view: SceneView) => {
   return new CoordinateConversion({
     view,
   });
 };
 
-const setupNewFormat = () => {
+export const setupNewFormat = () => {
   return new Format({
     name: "XYZ",
     conversionInfo: {
@@ -55,4 +57,4 @@ const setupNewFormat = () => {
   });
 };
 
-export { setupCoordinateWidget, setupNewFormat };
+

@@ -11,7 +11,7 @@ import {
 
 import { ShareMapAlert } from "../ShareMap/ShareMapAlert";
 import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers";
-import { createURL, copyTextToClipboard } from "../../modules/goToLocation.js";
+import { createURL, copyTextToClipboard } from "../../modules/goToLocation.ts";
 
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [actionbar, setActionbar] = useState(false);
