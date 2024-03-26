@@ -57,7 +57,6 @@ import {
 import { ActionBar } from "./components/ActionBar/ActionBar.jsx";
 import { BasemapGalleryPanel } from "./components/Basemaps/BasemapGalleryPanel.jsx";
 import { ElevationGalleryPanel } from "./components/Elevation/ElevationGalleryPanel.jsx";
-import { ShareMapAlert } from "./components/ShareMap/ShareMapAlert.jsx";
 import { LayerPanel } from "./components/LayerPanel/LayerPanel.jsx";
 import { LineOfSightPanel } from "./components/Analysis/LineOfSightPanel.jsx";
 import { DayLightPanel } from "./components/Analysis/DayLightPanel.jsx";
@@ -122,15 +121,14 @@ function App() {
 
       const view = setupWebView(scene, mapDiv.current);
       setView(view);
-
+      
+      // Loading twice so both scenes can be active
       geologyView.when(() => {
         view.when(() => {
           /**************************************
            * Geology layer setup
            **************************************/
           const geologyLayers = getGeologyLayers(geologyView);
-
-          console.log("Geology layers", geologyLayers);
 
           const boreholes = geologyLayers.items.find(
             // (layer) => layer.title === "Puurkaevud/puuraugud"
@@ -142,7 +140,6 @@ function App() {
           const geologyWMS = geologyLayers.items.find(
             (layer) => layer.title === "Geoloogia WMS"
           );
-          console.log("Geoloogia wms", geologyWMS);
           geologyWMS.visible = false;
 
           // Adding other DTM layers layers
@@ -151,7 +148,9 @@ function App() {
           /**************************************
            * Desc info
            **************************************/
+          // TODO siin on ikka raw HTML probleem
           const { description } = scene.portalItem;
+          console.log("Description", description)
           setDescription(description);
 
           /**************************************
@@ -164,6 +163,7 @@ function App() {
           /**************************************
            * Line of Sight analysis custom
            **************************************/
+          // TODO arendus tuleb hiljem
           // getStartPoint(view);
 
           /**************************************
@@ -306,8 +306,6 @@ function App() {
           /**************************************
            * Calcite CSS/JS
            **************************************/
-
-          // TODO võiks ka eraldi calcite funktsioonideks kirjutada
           const shadowCast = setupShadowCast(view);
           setShadowcast(shadowCast);
 
@@ -341,7 +339,6 @@ function App() {
             shadowCast={shadowCast}
             initVisibleLayers={initVisibleLayers}
           />
-          <ShareMapAlert />
 
           <LayerPanel
             heading={"Layers"}

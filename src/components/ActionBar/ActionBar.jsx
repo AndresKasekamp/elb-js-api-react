@@ -9,12 +9,14 @@ import {
   CalciteTooltip,
 } from "@esri/calcite-components-react";
 
+import { ShareMapAlert } from "../ShareMap/ShareMapAlert";
 import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers";
 import { createURL, copyTextToClipboard } from "../../modules/goToLocation.js";
 
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [actionbar, setActionbar] = useState(false);
   const [activeWidget, setActiveWidget] = useState(null);
+  const [shareOpen, setShareOpen] = useState(undefined)
 
   const handleActionBarClick = (e) => {
     if (e.target.tagName !== "CALCITE-ACTION") {
@@ -51,9 +53,10 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
       copyTextToClipboard(sharedLocation);
 
       // TODO see peaks olema state probably
+      setShareOpen(true)
       // Displaying popup
-      const shareMapAlert = document.getElementById("share-map-alert");
-      shareMapAlert.open = "true";
+      // const shareMapAlert = document.getElementById("share-map-alert");
+      // shareMapAlert.open = "true";
     }
   };
 
@@ -153,6 +156,7 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
           <span>Share a map</span>
         </CalciteTooltip>
       </CalciteActionBar>
+      <ShareMapAlert shareOpen={shareOpen} />
     </>
   );
 };

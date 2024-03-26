@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-
     "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -13,6 +12,7 @@
   "dependencies": {
     "@arcgis/core": "^4.29.10",
     "@esri/calcite-components-react": "^2.6.0",
+    "dompurify": "^3.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
