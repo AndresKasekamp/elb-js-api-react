@@ -53,27 +53,11 @@ import {
 // Calcite components
 import "@esri/calcite-components/dist/components/calcite-shell.js";
 import "@esri/calcite-components/dist/components/calcite-shell-panel.js";
-import "@esri/calcite-components/dist/components/calcite-action-bar.js";
-import "@esri/calcite-components/dist/components/calcite-action.js";
-import "@esri/calcite-components/dist/components/calcite-tooltip.js";
-// import "@esri/calcite-components/dist/components/calcite-alert.js";
-import "@esri/calcite-components/dist/components/calcite-panel.js";
-import "@esri/calcite-components/dist/components/calcite-checkbox.js";
-import "@esri/calcite-components/dist/components/calcite-label.js";
-// import "@esri/calcite-components/dist/components/calcite-slider.js";
-import "@esri/calcite-components/dist/components/calcite-radio-button-group.js";
-import "@esri/calcite-components/dist/components/calcite-radio-button.js";
-import "@esri/calcite-components/dist/components/calcite-input-text.js";
-import "@esri/calcite-components/dist/components/calcite-button.js";
+
 import {
   CalciteShell,
   CalciteShellPanel,
-  // CalciteAction,
-  // CalciteAlert,
-  CalcitePanel,
-  // CalciteLabel,
-  // CalciteInputText,
-  // CalciteButton,
+
 } from "@esri/calcite-components-react";
 
 import { ActionBar } from "./components/ActionBar/ActionBar.jsx";
@@ -85,6 +69,11 @@ import { LineOfSightPanel } from "./components/Analysis/LineOfSightPanel.jsx";
 import { DayLightPanel } from "./components/Analysis/DayLightPanel.jsx";
 import { ElevationProfilePanel } from "./components/Analysis/ElevationProfilePanel.jsx";
 import { MeasurementPanel } from "./components/Analysis/MeasurementPanel.jsx";
+import { ShadowCastPanel } from "./components/Analysis/ShadowCastPanel.jsx";
+import { SlicingPanel } from "./components/Analysis/SlicingPanel.jsx";
+import { SharePanel } from "./components/ShareMap/SharePanel.jsx";
+import { InformationPanel } from "./components/Analysis/InformationPanel.jsx";
+import { SketchingPanel } from "./components/Analysis/SketchingPanel.jsx";
 
 // CSS modules
 import "./App.css";
@@ -99,6 +88,7 @@ function App() {
   const [view, setView] = useState(null);
   const [shadowCast, setShadowcast] = useState(null)
   const [measurement, setMeasurement] = useState(null)
+  const [description, setDescription] = useState(null)
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -165,8 +155,9 @@ function App() {
 
         // TODO kui kakskeelseks teha, siis peaks ilmselt läbi portaali ära kaotama ja tekstid kuhugi lisama
         const { description } = scene.portalItem;
-        const itemDesc = document.querySelector("#item-description");
-        itemDesc.innerHTML = description;
+        setDescription(description)
+        // const itemDesc = document.querySelector("#item-description");
+        // itemDesc.innerHTML = description;
 
         /**************************************
          * Built-in UI components
@@ -367,134 +358,16 @@ function App() {
           <LayerPanel heading={"WMS"} dataPanelId={"layers-wms"} divId={"wms-layers-container"} />
           <BasemapGalleryPanel basemaps={basemaps} view={view} />
           <ElevationGalleryPanel view={view} />
-
           <LineOfSightPanel />
           <DayLightPanel />
           <ElevationProfilePanel />
           <MeasurementPanel measurement={measurement} />
+          <ShadowCastPanel />
+          <SlicingPanel />
+          <SketchingPanel />
+          <InformationPanel description={description} />
+          <SharePanel />
 
-          <CalcitePanel height-scale="l" data-panel-id="shadowCast" hidden>
-            <div id="shadowcast-container"></div>
-          </CalcitePanel>
-
-          <CalcitePanel
-            heading="Slicing"
-            height-scale="l"
-            data-panel-id="slicing"
-            hidden
-          >
-            <div id="slicing-container"></div>
-          </CalcitePanel>
-
-          <CalcitePanel
-            heading="Sketching"
-            height-scale="l"
-            data-panel-id="sketching"
-            hidden
-          >
-            <div id="sketchPanel" className="esri-widget">
-              <div id="startbuttons">
-                <button
-                  id="point"
-                  data-type="point"
-                  className="esri-button starttool"
-                >
-                  Draw a point of interest
-                </button>
-                <button
-                  id="line"
-                  data-type="polyline"
-                  className="esri-button starttool"
-                >
-                  Draw a route
-                </button>
-                <button
-                  id="extrudedPolygon"
-                  data-type="polygon"
-                  className="esri-button starttool"
-                >
-                  Draw a building
-                </button>
-              </div>
-              <div id="actionbuttons">
-                <button id="cancel" className="esri-button">
-                  Cancel
-                </button>
-                <button id="done" className="esri-button">
-                  Done
-                </button>
-              </div>
-
-              <div id="edgeoperationbuttons">
-                <div id="extrudeSliderContainer">
-                  <div>
-                    Extrude value: <span id="extrude">10</span>
-                  </div>
-                  <div id="extrudeSlider"></div>
-                </div>
-                <br />
-                Select the edge operation:
-                <div className="update-options" id="edge">
-                  <button
-                    className="esri-widget--button edge-button"
-                    id="none-edge-button"
-                    value="none"
-                  >
-                    None
-                  </button>
-                  <button
-                    className="esri-widget--button edge-button edge-button-selected"
-                    id="split-edge-button"
-                    value="split"
-                  >
-                    Split
-                  </button>
-                  <button
-                    className="esri-widget--button edge-button"
-                    id="offset-edge-button"
-                    value="offset"
-                  >
-                    Offset
-                  </button>
-                </div>
-                Select the move operation:
-                <div className="update-options" id="shape">
-                  <button
-                    className="esri-widget--button shape-button"
-                    id="none-shape-button"
-                    value="none"
-                  >
-                    None
-                  </button>
-                  <button
-                    className="esri-widget--button shape-button shape-button-selected"
-                    id="move-shape-button"
-                    value="move"
-                  >
-                    Move
-                  </button>
-                </div>
-              </div>
-            </div>
-          </CalcitePanel>
-
-          <CalcitePanel
-            id="information-panel"
-            heading="Details"
-            data-panel-id="information"
-            hidden
-          >
-            <div id="info-content">
-              <div id="item-description"></div>
-            </div>
-          </CalcitePanel>
-
-          <CalcitePanel
-            height-scale="l"
-            data-panel-id="share"
-            hidden
-            closed
-          ></CalcitePanel>
         </CalciteShellPanel>
 
         <div className="mapDiv" ref={mapDiv}></div>

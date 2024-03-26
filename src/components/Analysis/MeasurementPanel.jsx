@@ -8,7 +8,6 @@ export const MeasurementPanel = ({ measurement }) => {
   const [activeTool, setActiveTool] = useState("no-tool");
 
   const handleMeasurement = (tool) => {
-    console.log("Measuremnt for tool", tool);
     setActiveTool(tool);
     measurement.activeTool = tool;
   };
