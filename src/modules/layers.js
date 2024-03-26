@@ -115,23 +115,23 @@ const compareVisibleLayers = (initVisibleLayers, visibleLayersCurrently) => {
   return [regularLayers, elevationChanged];
 };
 
-const setNoBasemap = (basemaps, view) => {
-  const basemapSwitch = document.getElementById("basemapSwitch");
-  let currentBasemap;
-  basemapSwitch.addEventListener("calciteCheckboxChange", () => {
-    if (basemaps.activeBasemap.title !== "Basemap") {
-      currentBasemap = basemaps.activeBasemap;
-    }
+// const setNoBasemap = (basemaps, view) => {
+//   const basemapSwitch = document.getElementById("basemapSwitch");
+//   let currentBasemap;
+//   basemapSwitch.addEventListener("calciteCheckboxChange", () => {
+//     if (basemaps.activeBasemap.title !== "Basemap") {
+//       currentBasemap = basemaps.activeBasemap;
+//     }
 
-    if (basemapSwitch.checked) {
-      view.map.basemap = {};
-    } else {
-      view.map.basemap = currentBasemap;
-    }
+//     if (basemapSwitch.checked) {
+//       view.map.basemap = {};
+//     } else {
+//       view.map.basemap = currentBasemap;
+//     }
 
-    basemaps.disabled = !basemaps.disabled;
-  });
-};
+//     basemaps.disabled = !basemaps.disabled;
+//   });
+// };
 
 
 
@@ -145,6 +145,6 @@ export {
   getGeologyLayers,
   getVisibleLayers,
   compareVisibleLayers,
-  setNoBasemap,
+  // setNoBasemap,
 
 };

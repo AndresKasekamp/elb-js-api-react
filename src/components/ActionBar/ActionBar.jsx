@@ -9,7 +9,10 @@ import {
   CalciteTooltip,
 } from "@esri/calcite-components-react";
 
-export const ActionBar = ({ view, shadowCast }) => {
+import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers";
+import { createURL, copyTextToClipboard } from "../../modules/goToLocation.js";
+
+export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [actionbar, setActionbar] = useState(false);
   const [activeWidget, setActiveWidget] = useState(null);
 
@@ -27,27 +30,27 @@ export const ActionBar = ({ view, shadowCast }) => {
     if (nextWidget !== activeWidget) {
       document.querySelector(`[data-action-id=${nextWidget}]`).active = true;
       document.querySelector(`[data-panel-id=${nextWidget}]`).hidden = false;
-      setActiveWidget(nextWidget)
+      setActiveWidget(nextWidget);
     } else {
-      setActiveWidget(null)
+      setActiveWidget(null);
     }
 
     if (nextWidget === "shadowCast") {
       shadowCast.visible = !shadowCast.visible;
     }
 
-    // TODO see jama korda teha
     if (nextWidget === "share") {
-      // const visibleLayersCurrently = getVisibleLayers(view);
+      const visibleLayersCurrently = getVisibleLayers(view);
 
-      // const [regularLayers, elevationChanged] = compareVisibleLayers(
-      //   initVisibleLayers,
-      //   visibleLayersCurrently
-      // );
+      const [regularLayers, elevationChanged] = compareVisibleLayers(
+        initVisibleLayers,
+        visibleLayersCurrently
+      );
 
-      // const sharedLocation = createURL(view, regularLayers, elevationChanged);
-      // copyTextToClipboard(sharedLocation);
+      const sharedLocation = createURL(view, regularLayers, elevationChanged);
+      copyTextToClipboard(sharedLocation);
 
+      // TODO see peaks olema state probably
       // Displaying popup
       const shareMapAlert = document.getElementById("share-map-alert");
       shareMapAlert.open = "true";
@@ -153,4 +156,3 @@ export const ActionBar = ({ view, shadowCast }) => {
     </>
   );
 };
-
