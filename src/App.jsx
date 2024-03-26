@@ -21,6 +21,9 @@ import {
   loadWMStile,
   getLayerInfo,
 } from "./modules/layerList.ts";
+
+import {setupLayerListMain2} from "./modules/layerList2.tsx"
+
 import { setupCoordinateWidget, setupNewFormat } from "./modules/coordinate.ts";
 import { setupLoS } from "./modules/lineOfSight.ts";
 import {
@@ -181,6 +184,7 @@ function App() {
            * Layerlist from scene
            **************************************/
           const layerList = setupLayerListMain(view);
+          // const layerList = setupLayerListMain2(view);
 
           getLayerInfo(layerList, view);
 

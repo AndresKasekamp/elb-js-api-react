@@ -22,13 +22,15 @@ const basemapIds: string[] = [
   "e5c6a086a5ae4d1991d4ca35733fe0ed",
 ];
 
-// TODO ettevaatlikult üle toomine
+
 const setupLayerListMain = (view: SceneView) => {
   return new LayerList({
     view,
     container: "layers-container",
     listItemCreatedFunction: async (e) => {
       const item = e.item;
+
+
 
       await item.layer.when();
 
@@ -40,6 +42,8 @@ const setupLayerListMain = (view: SceneView) => {
       setupLegend(view, item.layer, legendDiv);
 
       itemPanelDiv.append(sliderDiv, legendDiv);
+
+      console.log("itempaneldiv", itemPanelDiv)
 
       if (
         item.title === "Kataster" ||
@@ -162,33 +166,7 @@ const setupLayerListWMS = (view: SceneView) => {
   });
 };
 
-// const setupElevationExpand = (view: SceneView, content, container: string | HTMLElement | undefined = undefined) => {
-//   return new Expand({
-//     view,
-//     content,
-//     container,
-//   });
-// };
 
-// const setupExpand = (
-//   toolTipText,
-//   view,
-//   content,
-//   expanded,
-//   group,
-//   expandIcon = null,
-//   container = null
-// ) => {
-//   return new Expand({
-//     expandTooltip: toolTipText,
-//     view,
-//     content,
-//     expanded,
-//     group,
-//     expandIcon,
-//     container,
-//   });
-// };
 
 const setupBasemapGallery = (view: SceneView) => {
   return new BasemapGallery({
