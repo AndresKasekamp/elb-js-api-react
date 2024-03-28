@@ -37,6 +37,7 @@ const getLayerVisibility = (view: SceneView) => {
   }
 };
 
+// TODO see komponent ümber teha
 const getElevationVisibility = (view: SceneView) => {
   const urlString = new URL(window.location.href);
   const url = new URLSearchParams(urlString.search);
