@@ -19,6 +19,7 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [shareOpen, setShareOpen] = useState(undefined)
 
   const handleActionBarClick = (e) => {
+
     if (e.target.tagName !== "CALCITE-ACTION") {
       return;
     }
