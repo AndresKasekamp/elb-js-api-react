@@ -22,8 +22,6 @@ import {
   getLayerInfo,
 } from "./modules/layerList.ts";
 
-import {setupLayerListMain2} from "./modules/layerList2.tsx"
-
 import { setupCoordinateWidget, setupNewFormat } from "./modules/coordinate.ts";
 import { setupLoS } from "./modules/lineOfSight.ts";
 import {
@@ -80,6 +78,7 @@ function App() {
   // States to be used in component
   const [basemaps, setBasemaps] = useState(null);
   const [view, setView] = useState(null);
+
   const [shadowCast, setShadowcast] = useState(null);
   const [measurement, setMeasurement] = useState(null);
   const [description, setDescription] = useState(null);
@@ -113,6 +112,7 @@ function App() {
       const geologyScene = setupWebScene("da15a55042b54c31b0208ba98c1647fc");
 
       const geologyView = setupWebView(geologyScene, mapDiv.current);
+      // setGview(geologyView);
 
       const apDTM = setupElevationLayer(
         "https://tiles.arcgis.com/tiles/ZYGCYltwz5ExeoGm/arcgis/rest/services/APR_50m_Eesti_tif/ImageServer",
@@ -123,12 +123,12 @@ function App() {
         "Aluskord 50m"
       );
 
-      const view = setupWebView(scene, mapDiv.current);
-      setView(view);
-
+      const sceneView = setupWebView(scene, mapDiv.current);
+      setView(sceneView);
+      
       // Loading twice so both scenes can be active
       geologyView.when(() => {
-        view.when(() => {
+        sceneView.when(() => {
           /**************************************
            * Geology layer setup
            **************************************/
@@ -147,7 +147,7 @@ function App() {
           geologyWMS.visible = false;
 
           // Adding other DTM layers layers
-          view.map.ground.layers.addMany([apDTM, akDTM]);
+          sceneView.map.ground.layers.addMany([apDTM, akDTM]);
 
           /**************************************
            * Desc info
@@ -159,9 +159,9 @@ function App() {
           /**************************************
            * Built-in UI components
            **************************************/
-          view.ui.move("zoom", "top-right");
-          view.ui.move("navigation-toggle", "top-right");
-          view.ui.move("compass", "top-right");
+          sceneView.ui.move("zoom", "top-right");
+          sceneView.ui.move("navigation-toggle", "top-right");
+          sceneView.ui.move("compass", "top-right");
 
           /**************************************
            * Line of Sight analysis custom
@@ -175,32 +175,31 @@ function App() {
 
           const treeGroupLayer = setupGroupLayer("Taimkate", "exclusive");
 
-          taimkateWorkaround(treeGroupLayer, view);
+          taimkateWorkaround(treeGroupLayer, sceneView);
 
           // Add the GroupLayer to view
-          view.map.add(treeGroupLayer);
+          sceneView.map.add(treeGroupLayer);
 
           /**************************************
            * Layerlist from scene
            **************************************/
-          const layerList = setupLayerListMain(view);
-          // const layerList = setupLayerListMain2(view);
+          const layerList = setupLayerListMain(sceneView);
 
-          getLayerInfo(layerList, view);
+          getLayerInfo(layerList, sceneView);
 
           /**************************************
            * WMS layerlist gallery
            **************************************/
-          const wmsLayerList = setupLayerListWMS(view);
+          const wmsLayerList = setupLayerListWMS(sceneView);
 
-          getLayerInfo(wmsLayerList, view);
+          getLayerInfo(wmsLayerList, sceneView);
 
           /**************************************
            * Basemap gallery
            **************************************/
-          const basemaps = setupBasemapGallery(view);
+          const basemaps = setupBasemapGallery(sceneView);
           setBasemaps(basemaps);
-          loadWMStile(basemaps, view);
+          loadWMStile(basemaps, sceneView);
 
           /**************************************
            * Geology layer group
@@ -211,17 +210,17 @@ function App() {
           geologyGroupLayer.addMany([boreholes, constructionGeology]);
 
           // Adding a geology layer group to view
-          view.map.add(geologyGroupLayer);
+          sceneView.map.add(geologyGroupLayer);
 
           // Geology WMS
-          view.map.add(geologyWMS);
+          sceneView.map.add(geologyWMS);
 
           // TODO exxaggeration ka tuua üle - aga see veits keerulisem
 
           /**************************************
            *  Coordinate tool
            **************************************/
-          const ccWidget = setupCoordinateWidget(view);
+          const ccWidget = setupCoordinateWidget(sceneView);
           const newFormat = setupNewFormat();
           ccWidget.formats.add(newFormat);
 
@@ -231,56 +230,56 @@ function App() {
             new Conversion({ format: newFormat })
           );
 
-          view.ui.add(ccWidget, "bottom-right");
+          sceneView.ui.add(ccWidget, "bottom-right");
 
           /**************************************
            * Initialize the LineOfSight widget
            **************************************/
-          setupLoS(view);
+          setupLoS(sceneView);
 
           /**************************************
            * Initialize the Search Widget
            **************************************/
           const customSearchSource = setupCustomSearchSource();
-          setupSearchWidget(view, customSearchSource);
+          setupSearchWidget(sceneView, customSearchSource);
 
           /**************************************
            * Initialize daylight
            **************************************/
 
-          setupDaylight(view);
+          setupDaylight(sceneView);
 
           /**************************************
            *  Elevation profile
            **************************************/
 
-          setupElevationProfile(view);
+          setupElevationProfile(sceneView);
 
           /**************************************
            *  Measurement 3D
            **************************************/
 
-          const measurement = setupMeasurement(view);
+          const measurement = setupMeasurement(sceneView);
           setMeasurement(measurement);
 
           /**************************************
            * Slicing
            **************************************/
 
-          setupSlice(view);
+          setupSlice(sceneView);
 
           /**************************************
            * Locate
            **************************************/
-          const locate = setupLocate(view);
+          const locate = setupLocate(sceneView);
 
-          view.ui.add(locate, "top-right");
+          sceneView.ui.add(locate, "top-right");
 
           /**************************************
            * Sketching
            **************************************/
 
-          setupSketch(view, graphicsLayer);
+          setupSketch(sceneView, graphicsLayer);
 
           /**************************************
            * Rotating windmills
@@ -293,24 +292,26 @@ function App() {
            **************************************/
 
           // Reordering for on-the-fly layers
-          view.map.reorder(treeGroupLayer, 6);
-          view.map.reorder(geologyGroupLayer, 6);
-          view.map.reorder(geologyWMS, -1);
+          sceneView.map.reorder(treeGroupLayer, 6);
+          sceneView.map.reorder(geologyGroupLayer, 6);
+          sceneView.map.reorder(geologyWMS, -1);
 
           // Replacing sidemastid location, adding to correct group
-          const rajatisedGroup = view.map.findLayerById("180fa46104d-layer-35");
+          const rajatisedGroup = sceneView.map.findLayerById(
+            "180fa46104d-layer-35"
+          );
           rajatisedGroup.add(communicationTower);
 
           /**************************************
            * Collecting visible layers before modification and rerendering
            **************************************/
-          const initVisibleLayers = getVisibleLayers(view);
+          const initVisibleLayers = getVisibleLayers(sceneView);
           setInitVisibleLayers(initVisibleLayers);
 
           /**************************************
            * Calcite CSS/JS
            **************************************/
-          const shadowCast = setupShadowCast(view);
+          const shadowCast = setupShadowCast(sceneView);
           setShadowcast(shadowCast);
 
           /**************************************
@@ -320,64 +321,76 @@ function App() {
           // Going to specified location at runtime
           const locationArray = getLocation();
 
-          const navigationUndergroundButton = getUndergroundInfo(view);
+          const navigationUndergroundButton = getUndergroundInfo(sceneView);
           setNavigationUndergroundButton(navigationUndergroundButton);
 
-          getLayerVisibility(view);
-          const checkedElevation = getElevationVisibility(view);
+          getLayerVisibility(sceneView);
+          const checkedElevation = getElevationVisibility(sceneView);
           setCheckedElevation(checkedElevation);
 
           if (locationArray !== null) {
             const viewpoint = setupViewPoint(locationArray);
-            view.goTo(viewpoint, { animate: false });
+            sceneView.goTo(viewpoint, { animate: false });
           }
         });
       });
+
+      
+
+      return () => {
+        if (sceneView && geologyView) {
+
+
+          // geologyView.container = null;
+          // sceneView.container = null;
+
+          scene.destroy()
+          geologyScene.destroy()
+
+        }
+      };
     }
   }, [mapDiv]);
 
   return (
-    <>
-      <CalciteShell content-behind id="calcite-shell">
-        <Header />
+    <CalciteShell content-behind id="calcite-shell">
+      <Header />
+      <CalciteShellPanel slot="panel-start" displayMode="float">
+        <ActionBar
+          view={view}
+          shadowCast={shadowCast}
+          initVisibleLayers={initVisibleLayers}
+        />
 
-        <CalciteShellPanel slot="panel-start" displayMode="float">
-          <ActionBar
-            view={view}
-            shadowCast={shadowCast}
-            initVisibleLayers={initVisibleLayers}
-          />
+        <LayerPanel
+          heading={"Layers"}
+          dataPanelId={"layers"}
+          divId={"layers-container"}
+        />
+        <LayerPanel
+          heading={"WMS"}
+          dataPanelId={"layers-wms"}
+          divId={"wms-layers-container"}
+        />
+        <BasemapGalleryPanel basemaps={basemaps} view={view} />
+        <ElevationGalleryPanel
+          view={view}
+          navigationUndergroundButton={navigationUndergroundButton}
+          checkedElevation={checkedElevation}
+        />
+        <LineOfSightPanel />
+        <DayLightPanel />
+        <ElevationProfilePanel />
+        <MeasurementPanel measurement={measurement} />
+        <ShadowCastPanel />
+        <SlicingPanel />
+        <SketchingPanel />
+        <InformationPanel description={description} />
+        <SharePanel />
+      </CalciteShellPanel>
 
-          <LayerPanel
-            heading={"Layers"}
-            dataPanelId={"layers"}
-            divId={"layers-container"}
-          />
-          <LayerPanel
-            heading={"WMS"}
-            dataPanelId={"layers-wms"}
-            divId={"wms-layers-container"}
-          />
-          <BasemapGalleryPanel basemaps={basemaps} view={view} />
-          <ElevationGalleryPanel
-            view={view}
-            navigationUndergroundButton={navigationUndergroundButton}
-            checkedElevation={checkedElevation}
-          />
-          <LineOfSightPanel />
-          <DayLightPanel />
-          <ElevationProfilePanel />
-          <MeasurementPanel measurement={measurement} />
-          <ShadowCastPanel />
-          <SlicingPanel />
-          <SketchingPanel />
-          <InformationPanel description={description} />
-          <SharePanel />
-        </CalciteShellPanel>
-
-        <div className="mapDiv" ref={mapDiv}></div>
-      </CalciteShell>
-    </>
+      <div className="mapDiv" key="mapDiv" ref={mapDiv}></div>
+    </CalciteShell>
   );
 }
 

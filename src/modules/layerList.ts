@@ -22,7 +22,6 @@ const basemapIds: string[] = [
   "e5c6a086a5ae4d1991d4ca35733fe0ed",
 ];
 
-
 const setupLayerListMain = (view: SceneView) => {
   return new LayerList({
     view,
@@ -30,20 +29,16 @@ const setupLayerListMain = (view: SceneView) => {
     listItemCreatedFunction: async (e) => {
       const item = e.item;
 
-
-
       await item.layer.when();
 
       // Slider settings
-      const [itemPanelDiv, sliderDiv] = setupSliderStyle();
+      const [itemPanelDiv, sliderDiv] = setupSliderStyle(item);
 
       // Legend settings
       const legendDiv = setupLegendStyle();
       setupLegend(view, item.layer, legendDiv);
 
       itemPanelDiv.append(sliderDiv, legendDiv);
-
-      console.log("itempaneldiv", itemPanelDiv)
 
       if (
         item.title === "Kataster" ||
@@ -67,12 +62,6 @@ const setupLayerListMain = (view: SceneView) => {
           title: "Legend and layer opacity",
         };
       }
-
-      sliderDiv.addEventListener("calciteSliderInput", () => {
-        // @ts-expect-error - value fix to be done
-        const value = sliderDiv.value / 100;
-        item.layer.opacity = value;
-      });
 
       // Common section for both conditions
 
@@ -117,7 +106,7 @@ const setupLayerListWMS = (view: SceneView) => {
       await item.layer.when();
 
       // Slider settings
-      const [itemPanelDiv, sliderDiv] = setupSliderStyle();
+      const [itemPanelDiv, sliderDiv] = setupSliderStyle(item);
 
       // Legend settings
       const legendDiv = setupLegendStyle();
@@ -145,12 +134,6 @@ const setupLayerListWMS = (view: SceneView) => {
       // when the item is the name of the tree,
       // add the layers of the items to the group layer
 
-      sliderDiv.addEventListener("calciteSliderInput", () => {
-        // @ts-expect-error - value fix to be done
-        const value = sliderDiv.value / 100;
-        item.layer.opacity = value;
-      });
-
       if (item.title !== "Geoloogia WMS") {
         item.actionsSections = [
           [
@@ -165,8 +148,6 @@ const setupLayerListWMS = (view: SceneView) => {
     },
   });
 };
-
-
 
 const setupBasemapGallery = (view: SceneView) => {
   return new BasemapGallery({
