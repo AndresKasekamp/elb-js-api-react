@@ -52,12 +52,7 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
 
       const sharedLocation = createURL(view, regularLayers, elevationChanged);
       copyTextToClipboard(sharedLocation);
-
-      // TODO see peaks olema state probably
       setShareOpen(true)
-      // Displaying popup
-      // const shareMapAlert = document.getElementById("share-map-alert");
-      // shareMapAlert.open = "true";
     }
   };
 

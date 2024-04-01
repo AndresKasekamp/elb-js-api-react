@@ -5,15 +5,13 @@ import { CalcitePanel } from "@esri/calcite-components-react";
 
 export const SlicingPanel = () => {
   return (
-    <>
-      <CalcitePanel
-        heading="Slicing"
-        height-scale="l"
-        data-panel-id="slicing"
-        hidden
-      >
-        <div id="slicing-container"></div>
-      </CalcitePanel>
-    </>
+    <CalcitePanel
+      heading="Slicing"
+      height-scale="l"
+      data-panel-id="slicing"
+      hidden
+    >
+      <div id="slicing-container"></div>
+    </CalcitePanel>
   );
 };

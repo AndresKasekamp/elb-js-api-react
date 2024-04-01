@@ -5,13 +5,11 @@ import { CalcitePanel } from "@esri/calcite-components-react";
 
 export const SharePanel = () => {
   return (
-    <>
-          <CalcitePanel
-            height-scale="l"
-            data-panel-id="share"
-            hidden
-            closed
-          ></CalcitePanel>
-    </>
+    <CalcitePanel
+      height-scale="l"
+      data-panel-id="share"
+      hidden
+      closed
+    ></CalcitePanel>
   );
 };

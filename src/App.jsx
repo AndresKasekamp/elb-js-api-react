@@ -73,6 +73,7 @@ import "./App.css";
 import "@esri/calcite-components/dist/calcite/calcite.css";
 
 function App() {
+  // References
   const mapDiv = useRef(null);
 
   // States to be used in component
@@ -83,6 +84,7 @@ function App() {
   const [measurement, setMeasurement] = useState(null);
   const [description, setDescription] = useState(null);
   const [initVisibleLayers, setInitVisibleLayers] = useState(null);
+
   const [navigationUndergroundButton, setNavigationUndergroundButton] =
     useState(undefined);
   const [checkedElevation, setCheckedElevation] = useState(null);
@@ -113,7 +115,6 @@ function App() {
       const geologyScene = setupWebScene("da15a55042b54c31b0208ba98c1647fc");
 
       const geologyView = setupWebView(geologyScene, mapDiv.current);
-      // setGview(geologyView);
 
       const apDTM = setupElevationLayer(
         "https://tiles.arcgis.com/tiles/ZYGCYltwz5ExeoGm/arcgis/rest/services/APR_50m_Eesti_tif/ImageServer",
@@ -326,7 +327,8 @@ function App() {
           setNavigationUndergroundButton(navigationUndergroundButton);
 
           getLayerVisibility(sceneView);
-          const [checkedElevation, elevationOnOff] = getElevationVisibility(sceneView);
+          const [checkedElevation, elevationOnOff] =
+            getElevationVisibility(sceneView);
           setCheckedElevation(checkedElevation);
           setElevationOnOff(elevationOnOff);
 
@@ -337,15 +339,14 @@ function App() {
         });
       });
 
-      return () => {
-        if (sceneView && geologyView) {
-          // geologyView.container = null;
-          // sceneView.container = null;
-          
-          scene.destroy()
-          geologyScene.destroy()
-        }
-      };
+      // return () => {
+      //   if (sceneView && geologyView) {
+      //     geologyView.container = null;
+      //     sceneView.container = null;
+      //     // scene.destroy()
+      //     // geologyScene.destroy()
+      //   }
+      // };
     }
   }, [mapDiv]);
 

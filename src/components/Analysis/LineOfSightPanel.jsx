@@ -5,16 +5,14 @@ import { CalcitePanel } from "@esri/calcite-components-react";
 
 export const LineOfSightPanel = () => {
   return (
-    <>
-      <CalcitePanel
-        heading="Line of Sight"
-        height-scale="l"
-        data-panel-id="lineOfSight"
-        hidden
-      >
-        <div id="line-of-sight-container"></div>
-      </CalcitePanel>
-    </>
+    <CalcitePanel
+      heading="Line of Sight"
+      height-scale="l"
+      data-panel-id="lineOfSight"
+      hidden
+    >
+      <div id="line-of-sight-container"></div>
+    </CalcitePanel>
   );
 };
 

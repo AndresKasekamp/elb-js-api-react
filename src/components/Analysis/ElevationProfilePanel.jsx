@@ -5,15 +5,13 @@ import { CalcitePanel } from "@esri/calcite-components-react";
 
 export const ElevationProfilePanel = () => {
   return (
-    <>
-      <CalcitePanel
-        heading="Elevation profile"
-        height-scale="l"
-        data-panel-id="elevationProfile"
-        hidden
-      >
-        <div id="elevation-profile-container"></div>
-      </CalcitePanel>
-    </>
+    <CalcitePanel
+      heading="Elevation profile"
+      height-scale="l"
+      data-panel-id="elevationProfile"
+      hidden
+    >
+      <div id="elevation-profile-container"></div>
+    </CalcitePanel>
   );
 };

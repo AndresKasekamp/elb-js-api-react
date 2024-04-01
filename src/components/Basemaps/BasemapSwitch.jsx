@@ -21,16 +21,13 @@ export const BasemapSwitch = ({ basemaps, view }) => {
   };
 
   return (
-    <>
-      <CalciteLabel layout="inline">
-        <CalciteCheckbox
-          id="basemapSwitch"
-          scale="l"
-          onCalciteCheckboxChange={handleCheckboxChange}
-        ></CalciteCheckbox>
-        No basemap
-      </CalciteLabel>
-    </>
+    <CalciteLabel layout="inline">
+      <CalciteCheckbox
+        id="basemapSwitch"
+        scale="l"
+        onCalciteCheckboxChange={handleCheckboxChange}
+      ></CalciteCheckbox>
+      No basemap
+    </CalciteLabel>
   );
 };
-

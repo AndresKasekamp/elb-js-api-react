@@ -5,10 +5,8 @@ import { CalcitePanel } from "@esri/calcite-components-react";
 
 export const DayLightPanel = () => {
   return (
-    <>
-      <CalcitePanel height-scale="l" data-panel-id="daylight" hidden>
-        <div id="daylight-container"></div>
-      </CalcitePanel>
-    </>
+    <CalcitePanel height-scale="l" data-panel-id="daylight" hidden>
+      <div id="daylight-container"></div>
+    </CalcitePanel>
   );
 };

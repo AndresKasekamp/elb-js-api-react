@@ -8,18 +8,16 @@ import { BasemapSlider } from "./BasemapSlider";
 
 export const BasemapGalleryPanel = ({ basemaps, view }) => {
   return (
-    <>
-      <CalcitePanel
-        heading="Basemaps"
-        height-scale="l"
-        data-panel-id="basemaps"
-        hidden
-      >
-        <div id="basemaps-container"></div>
+    <CalcitePanel
+      heading="Basemaps"
+      height-scale="l"
+      data-panel-id="basemaps"
+      hidden
+    >
+      <div id="basemaps-container"></div>
 
-        <BasemapSwitch basemaps={basemaps} view={view} />
-        <BasemapSlider view={view} />
-      </CalcitePanel>
-    </>
+      <BasemapSwitch basemaps={basemaps} view={view} />
+      <BasemapSlider view={view} />
+    </CalcitePanel>
   );
 };

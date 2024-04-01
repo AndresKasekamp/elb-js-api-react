@@ -13,16 +13,14 @@ export const BasemapSlider = ({ view }) => {
   };
 
   return (
-    <>
-      <CalciteSlider
-        id="opacitySlider"
-        label-handles
-        min={0}
-        max={100}
-        step={1}
-        value={sliderValue}
-        onCalciteSliderInput={handleOpacityChange}
-      ></CalciteSlider>
-    </>
+    <CalciteSlider
+      id="opacitySlider"
+      label-handles
+      min={0}
+      max={100}
+      step={1}
+      value={sliderValue}
+      onCalciteSliderInput={handleOpacityChange}
+    ></CalciteSlider>
   );
 };

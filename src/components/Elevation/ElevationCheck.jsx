@@ -6,8 +6,6 @@ import { CalciteCheckbox, CalciteLabel } from "@esri/calcite-components-react";
 
 // TODO kõrgusmudeli visibility ja state jagamine selgeks teha ja normaalselt kommunikeerida (array errorid, miks?)
 export const ElevationCheck = ({ view, elevationOnOff }) => {
-  // const [elevation, setElevation] = useState(true);
-
   const [elevation, setElevation] = useState(true);
 
   useEffect(() => {
@@ -17,7 +15,7 @@ export const ElevationCheck = ({ view, elevationOnOff }) => {
 
   // TODO sa peaksid teadma, milline elevation on praegune lahtine
   const handleElevationCheck = () => {
-    console.log("Handle elevation check ran")
+    console.log("Handle elevation check ran");
     if (elevation) {
       setElevation(undefined);
     } else {
@@ -25,9 +23,9 @@ export const ElevationCheck = ({ view, elevationOnOff }) => {
     }
     view.map.ground.layers.forEach((layer) => {
       if (elevation) {
-        layer.visible = true
+        layer.visible = true;
       } else {
-        layer.visible = false
+        layer.visible = false;
       }
     });
   };

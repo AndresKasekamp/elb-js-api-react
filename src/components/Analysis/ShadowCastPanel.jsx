@@ -5,10 +5,8 @@ import { CalcitePanel } from "@esri/calcite-components-react";
 
 export const ShadowCastPanel = () => {
   return (
-    <>
-      <CalcitePanel height-scale="l" data-panel-id="shadowCast" hidden>
-        <div id="shadowcast-container"></div>
-      </CalcitePanel>
-    </>
+    <CalcitePanel height-scale="l" data-panel-id="shadowCast" hidden>
+      <div id="shadowcast-container"></div>
+    </CalcitePanel>
   );
 };
