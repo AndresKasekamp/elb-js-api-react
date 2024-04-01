@@ -1,16 +1,24 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // TODO kui tööle saad, siis interface ära muuta
 // TODO või proovida sättida default sketch toolbar alguses (esri oma) ja ülejäänud jätta samaks, kuna see draw a building/draw pole optimaalne alati
+// TODO typescript on vaja üle käia
 
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel.js";
 import Slider from "@arcgis/core/widgets/Slider.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
+import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
+import LineSymbol3D from "@arcgis/core/symbols/LineSymbol3D.js";
+import PointSymbol3D from "@arcgis/core/symbols/PointSymbol3D.js";
 
 // Graphic UI parameters
-const blue = [82, 82, 122, 0.9];
-const white = [255, 255, 255, 0.8];
+const blue: number[] = [82, 82, 122, 0.9];
+const white: number[] = [255, 255, 255, 0.8];
 // polygon symbol used for sketching the extruded building footprints
-const extrudedPolygon = {
+const extrudedPolygon: PolygonSymbol3D = {
   type: "polygon-3d",
+  // @ts-ignore: Object is possibly 'null'.
   symbolLayers: [
     {
       type: "extrude",
@@ -28,8 +36,9 @@ const extrudedPolygon = {
 };
 
 // polyline symbol used for sketching routes
-const route = {
+const route: LineSymbol3D = {
   type: "line-3d",
+  // @ts-ignore: Object is possibly 'null'.
   symbolLayers: [
     {
       type: "line",
@@ -49,8 +58,9 @@ const route = {
 };
 
 // point symbol used for sketching points of interest
-const point = {
+const point: PointSymbol3D = {
   type: "point-3d",
+  // @ts-ignore: Object is possibly 'null'.
   symbolLayers: [
     {
       type: "icon",
@@ -67,7 +77,7 @@ const point = {
   ],
 };
 
-export const setupSketch = (view, graphicsLayer) => {
+export const setupSketch = (view: SceneView, graphicsLayer: GraphicsLayer) => {
   /**************************************
    * Sketching (1): Init settings
    **************************************/
@@ -92,7 +102,7 @@ export const setupSketch = (view, graphicsLayer) => {
 
   const sketchViewModel = new SketchViewModel({
     layer: graphicsLayer,
-    view: view,
+    view,
     pointSymbol: point,
     polygonSymbol: extrudedPolygon,
     polylineSymbol: route,
@@ -114,34 +124,45 @@ export const setupSketch = (view, graphicsLayer) => {
 
   sketchViewModel.on("create", (event) => {
     if (event.state === "complete") {
+      // @ts-ignore: Object is possibly 'null'.
       startbuttons.style.display = "inline";
+      // @ts-ignore: Object is possibly 'null'.
       actionbuttons.style.display = "none";
       sketchViewModel.update(event.graphic);
     }
     if (event.state === "cancel") {
+      // @ts-ignore: Object is possibly 'null'.
       startbuttons.style.display = "inline";
+      // @ts-ignore: Object is possibly 'null'.
       actionbuttons.style.display = "none";
     }
   });
 
   sketchViewModel.on("update", (event) => {
     if (event.state === "start") {
+      // @ts-ignore: Object is possibly 'null'.
       startbuttons.style.display = "none";
+      // @ts-ignore: Object is possibly 'null'.
       actionbuttons.style.display = "inline";
 
       if (
         event.graphics[0].geometry.type === "polygon" ||
         event.graphics[0].geometry.type === "polyline"
       ) {
+        // @ts-ignore: Object is possibly 'null'.
         edgeoperationbuttons.style.display = "inline";
       }
       if (event.graphics[0].geometry.type === "polyline") {
+        // @ts-ignore: Object is possibly 'null'.
         extrudeSliderButton.style.display = "none";
       }
     }
     if (event.state === "complete") {
+      // @ts-ignore: Object is possibly 'null'.
       startbuttons.style.display = "inline";
+      // @ts-ignore: Object is possibly 'null'.
       actionbuttons.style.display = "none";
+      // @ts-ignore: Object is possibly 'null'.
       edgeoperationbuttons.style.display = "none";
     }
   });
@@ -158,18 +179,23 @@ export const setupSketch = (view, graphicsLayer) => {
 
   // set event listeners to activate sketching graphics
   drawButtons.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
+    btn.addEventListener("click", (event: MouseEvent) => {
       // to activate sketching the create method is called passing in the geometry type
       // from the data-type attribute of the html element
+      // @ts-ignore: Object is possibly 'null'.
       sketchViewModel.create(event.target.getAttribute("data-type"));
+      // @ts-ignore: Object is possibly 'null'.
       startbuttons.style.display = "none";
+      // @ts-ignore: Object is possibly 'null'.
       actionbuttons.style.display = "inline";
     });
   });
 
+  // @ts-ignore: Object is possibly 'null'.
   cancelBtn.addEventListener("click", () => {
     sketchViewModel.cancel();
   });
+  // @ts-ignore: Object is possibly 'null'.
   doneBtn.addEventListener("click", () => {
     if (sketchViewModel.updateGraphics.length !== 0) {
       sketchViewModel.complete();
@@ -179,14 +205,18 @@ export const setupSketch = (view, graphicsLayer) => {
   });
 
   // Update the building layer extrusion
+  // @ts-ignore: Object is possibly 'null'.
   extrudeSlider.on(["thumb-change", "thumb-drag"], extrudeSizeChanged);
 
+  // @ts-ignore: Object is possibly 'null'.
   function extrudeSizeChanged(event) {
     const value = event.value;
+    // @ts-ignore: Object is possibly 'null'.
     document.getElementById("extrude").innerHTML = value;
     const extrudedPolygon = sketchViewModel.layer.graphics.getItemAt(
       sketchViewModel.layer.graphics.length - 1
     );
+    // @ts-ignore: Object is possibly 'null'.
     const updatedSymbol = extrudedPolygon.symbol.clone();
     updatedSymbol.symbolLayers.items[0].size = value;
     extrudedPolygon.symbol = updatedSymbol;
@@ -200,11 +230,15 @@ export const setupSketch = (view, graphicsLayer) => {
   const noneEdgeBtn = document.getElementById("none-edge-button");
   const splitEdgeBtn = document.getElementById("split-edge-button");
   const offsetEdgeBtn = document.getElementById("offset-edge-button");
+  // @ts-ignore: Object is possibly 'null'.
   noneEdgeBtn.onclick = edgeChangedClickHandler;
+  // @ts-ignore: Object is possibly 'null'.
   splitEdgeBtn.onclick = edgeChangedClickHandler;
+  // @ts-ignore: Object is possibly 'null'.
   offsetEdgeBtn.onclick = edgeChangedClickHandler;
 
-  function edgeChangedClickHandler(event) {
+  function edgeChangedClickHandler(event: MouseEvent) {
+    // @ts-ignore: Object is possibly 'null'.
     edgeType = event.target.value;
 
     // handle the buttons
@@ -212,6 +246,7 @@ export const setupSketch = (view, graphicsLayer) => {
     for (const button of buttons) {
       button.classList.remove("edge-button-selected");
     }
+    // @ts-ignore: Object is possibly 'null'.
     this.classList.add("edge-button-selected");
     restartUpdateMode({
       reshapeOptions: {
@@ -224,10 +259,13 @@ export const setupSketch = (view, graphicsLayer) => {
   // Handling the configuration for move operation
   const noneShapeButton = document.getElementById("none-shape-button");
   const moveShapeButton = document.getElementById("move-shape-button");
+  // @ts-ignore: Object is possibly 'null'.
   noneShapeButton.onclick = shapeChangedClickHandler;
+  // @ts-ignore: Object is possibly 'null'.
   moveShapeButton.onclick = shapeChangedClickHandler;
 
-  function shapeChangedClickHandler(event) {
+  function shapeChangedClickHandler(event: MouseEvent) {
+    // @ts-ignore: Object is possibly 'null'.
     shapeType = event.target.value;
 
     // handle the buttons
@@ -235,6 +273,7 @@ export const setupSketch = (view, graphicsLayer) => {
     for (const button of buttons) {
       button.classList.remove("shape-button-selected");
     }
+    // @ts-ignore: Object is possibly 'null'.
     this.classList.add("shape-button-selected");
     restartUpdateMode({
       reshapeOptions: {
@@ -244,6 +283,7 @@ export const setupSketch = (view, graphicsLayer) => {
     });
   }
 
+  // @ts-ignore: Object is possibly 'null'.
   function restartUpdateMode(updateOptions) {
     sketchViewModel.defaultUpdateOptions = {
       ...sketchViewModel.defaultUpdateOptions,
@@ -265,5 +305,3 @@ export const setupSketch = (view, graphicsLayer) => {
     }
   }
 };
-
-

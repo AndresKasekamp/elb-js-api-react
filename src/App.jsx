@@ -28,7 +28,7 @@ import {
   setupCustomSearchSource,
   setupSearchWidget,
 } from "./modules/search.ts";
-import { setupSketch } from "./modules/sketch.js";
+import { setupSketch } from "./modules/sketch.ts";
 import { setupDaylight } from "./modules/daylight.ts";
 import { setupElevationProfile } from "./modules/elevationProfile.ts";
 import { setupMeasurement } from "./modules/measurement.ts";
@@ -339,14 +339,14 @@ function App() {
         });
       });
 
-      // return () => {
-      //   if (sceneView && geologyView) {
-      //     geologyView.container = null;
-      //     sceneView.container = null;
-      //     // scene.destroy()
-      //     // geologyScene.destroy()
-      //   }
-      // };
+      return () => {
+        if (sceneView && geologyView) {
+          // geologyView.container = null;
+          // sceneView.container = null;
+          sceneView.destroy()
+          geologyView.destroy()
+        }
+      };
     }
   }, [mapDiv]);
 
