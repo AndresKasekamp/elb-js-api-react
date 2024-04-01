@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import "@esri/calcite-components/dist/components/calcite-radio-button-group.js";
 import "@esri/calcite-components/dist/components/calcite-radio-button.js";
@@ -10,6 +10,17 @@ import {
 } from "@esri/calcite-components-react";
 
 export const ElevationRadioButtons = ({ view, checkedElevation }) => {
+
+  console.log("Checked elevation", checkedElevation)
+
+  const [elevation, setElevation] = useState(undefined);
+
+  useEffect(() => {
+    // Update state only if the prop changes
+    setElevation(checkedElevation);
+  }, [checkedElevation]);
+
+
   const handleElevationChange = (e) => {
     const selectedItem = e.target.selectedItem.value;
 
@@ -29,7 +40,7 @@ export const ElevationRadioButtons = ({ view, checkedElevation }) => {
         <CalciteRadioButton
           id="dtmElevation"
           value="987798be0faa561d"
-          checked={checkedElevation === "dtmElevation" ? true : undefined}
+          checked={elevation === "dtmElevation" ? true : undefined}
         ></CalciteRadioButton>
         DTM
       </CalciteLabel>
@@ -37,7 +48,7 @@ export const ElevationRadioButtons = ({ view, checkedElevation }) => {
         <CalciteRadioButton
           id="apElevation"
           value="bae50815bbab6ded"
-          checked={checkedElevation === "apElevation" ? true : undefined}
+          checked={elevation === "apElevation" ? true : undefined}
         ></CalciteRadioButton>
         Aluspõhi 50m
       </CalciteLabel>
@@ -45,7 +56,7 @@ export const ElevationRadioButtons = ({ view, checkedElevation }) => {
         <CalciteRadioButton
           id="akElevation"
           value="974102ce30be63bb"
-          checked={checkedElevation === "akElevation" ? true : undefined}
+          checked={elevation === "akElevation" ? true : undefined}
         ></CalciteRadioButton>
         Aluskord 50m
       </CalciteLabel>

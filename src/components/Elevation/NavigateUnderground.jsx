@@ -5,7 +5,7 @@ import "@esri/calcite-components/dist/components/calcite-checkbox.js";
 import { CalciteCheckbox, CalciteLabel } from "@esri/calcite-components-react";
 
 export const NavigateUnderground = ({ view, navigationUndergroundButton }) => {
-  console.log("Navigation underground button", navigationUndergroundButton)
+
   const [underground, setUnderground] = useState(undefined);
 
   useEffect(() => {
@@ -38,29 +38,3 @@ export const NavigateUnderground = ({ view, navigationUndergroundButton }) => {
 };
 
 
-// import React, { useState, useEffect } from "react";
-// import { CalciteCheckbox, CalciteLabel } from "@esri/calcite-components-react";
-
-// export const NavigateUnderground = ({ view, navigationUndergroundButton }) => {
-//   const [underground, setUnderground] = useState(navigationUndergroundButton);
-
-//   useEffect(() => {
-//     view.map.ground.navigationConstraint.type = underground ? "stay-above" : "none";
-//   }, [underground, view.map.ground.navigationConstraint]);
-
-//   const toggleUnderground = () => {
-//     setUnderground(prevState => !prevState);
-//   };
-
-//   return (
-//     <CalciteLabel layout="inline">
-//       <CalciteCheckbox
-//         id="navigationUnderground"
-//         key="navigationUnderground"
-//         onCalciteCheckboxChange={toggleUnderground}
-//         checked={underground}
-//       />
-//       Navigate underground
-//     </CalciteLabel>
-//   );
-// };

@@ -86,6 +86,7 @@ function App() {
   const [navigationUndergroundButton, setNavigationUndergroundButton] =
     useState(undefined);
   const [checkedElevation, setCheckedElevation] = useState(null);
+  const [elevationOnOff, setElevationOnOff] = useState(null);
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -125,7 +126,7 @@ function App() {
 
       const sceneView = setupWebView(scene, mapDiv.current);
       setView(sceneView);
-      
+
       // Loading twice so both scenes can be active
       geologyView.when(() => {
         sceneView.when(() => {
@@ -325,8 +326,9 @@ function App() {
           setNavigationUndergroundButton(navigationUndergroundButton);
 
           getLayerVisibility(sceneView);
-          const checkedElevation = getElevationVisibility(sceneView);
+          const [checkedElevation, elevationOnOff] = getElevationVisibility(sceneView);
           setCheckedElevation(checkedElevation);
+          setElevationOnOff(elevationOnOff);
 
           if (locationArray !== null) {
             const viewpoint = setupViewPoint(locationArray);
@@ -335,62 +337,60 @@ function App() {
         });
       });
 
-      
-
       return () => {
         if (sceneView && geologyView) {
-
-
           // geologyView.container = null;
           // sceneView.container = null;
-
+          
           scene.destroy()
           geologyScene.destroy()
-
         }
       };
     }
   }, [mapDiv]);
 
   return (
-    <CalciteShell content-behind id="calcite-shell">
-      <Header />
-      <CalciteShellPanel slot="panel-start" displayMode="float">
-        <ActionBar
-          view={view}
-          shadowCast={shadowCast}
-          initVisibleLayers={initVisibleLayers}
-        />
+    <div key="main-div" id="main-div">
+      <CalciteShell content-behind id="calcite-shell">
+        <Header />
+        <CalciteShellPanel slot="panel-start" displayMode="float">
+          <ActionBar
+            view={view}
+            shadowCast={shadowCast}
+            initVisibleLayers={initVisibleLayers}
+          />
 
-        <LayerPanel
-          heading={"Layers"}
-          dataPanelId={"layers"}
-          divId={"layers-container"}
-        />
-        <LayerPanel
-          heading={"WMS"}
-          dataPanelId={"layers-wms"}
-          divId={"wms-layers-container"}
-        />
-        <BasemapGalleryPanel basemaps={basemaps} view={view} />
-        <ElevationGalleryPanel
-          view={view}
-          navigationUndergroundButton={navigationUndergroundButton}
-          checkedElevation={checkedElevation}
-        />
-        <LineOfSightPanel />
-        <DayLightPanel />
-        <ElevationProfilePanel />
-        <MeasurementPanel measurement={measurement} />
-        <ShadowCastPanel />
-        <SlicingPanel />
-        <SketchingPanel />
-        <InformationPanel description={description} />
-        <SharePanel />
-      </CalciteShellPanel>
+          <LayerPanel
+            heading={"Layers"}
+            dataPanelId={"layers"}
+            divId={"layers-container"}
+          />
+          <LayerPanel
+            heading={"WMS"}
+            dataPanelId={"layers-wms"}
+            divId={"wms-layers-container"}
+          />
+          <BasemapGalleryPanel basemaps={basemaps} view={view} />
+          <ElevationGalleryPanel
+            view={view}
+            navigationUndergroundButton={navigationUndergroundButton}
+            checkedElevation={checkedElevation}
+            elevationOnOff={elevationOnOff}
+          />
+          <LineOfSightPanel />
+          <DayLightPanel />
+          <ElevationProfilePanel />
+          <MeasurementPanel measurement={measurement} />
+          <ShadowCastPanel />
+          <SlicingPanel />
+          <SketchingPanel />
+          <InformationPanel description={description} />
+          <SharePanel />
+        </CalciteShellPanel>
 
-      <div className="mapDiv" key="mapDiv" ref={mapDiv}></div>
-    </CalciteShell>
+        <div className="mapDiv" key="mapDiv" ref={mapDiv}></div>
+      </CalciteShell>
+    </div>
   );
 }
 

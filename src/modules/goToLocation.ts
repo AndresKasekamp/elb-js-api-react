@@ -16,9 +16,9 @@ const getUndergroundInfo = (view: SceneView) => {
     // );
     // navigateUndergroundInput.checked = true;
     view.map.ground.navigationConstraint.type = "none";
-    return true
+    return true;
   }
-  return undefined
+  return undefined;
 };
 
 // TODO ts üle vaadata siin
@@ -39,41 +39,51 @@ const getLayerVisibility = (view: SceneView) => {
 
 // TODO see komponent ümber teha
 const getElevationVisibility = (view: SceneView) => {
+  console.log("This function ran")
   const urlString = new URL(window.location.href);
   const url = new URLSearchParams(urlString.search);
   const layersParamStr = url.get("elevation");
+
+  let checkedElevation: string | null = "dtmElevation";
+  let elevationOnOff: boolean | undefined = true
+
   if (layersParamStr !== null) {
     const layersParamArr = layersParamStr.split(",");
 
-    let checkedElevation
-    // Front end
-    layersParamArr.forEach((obj) => {
-      if (obj === "Kõrgusmudel") {
-        checkedElevation = "dtmElevation"
-        // const elevationModel = document.getElementById("dtmElevation");
-        // elevationModel.checked = "false";
-      } else if (obj === "Aluspõhi 50m") {
-        checkedElevation = "apElevation"
-        // const elevationModel = document.getElementById("apElevation");
-        // elevationModel.checked = "true";
-      } else if (obj === "Aluskord 50m") {
-        checkedElevation = "akElevation"
-        // const elevationModel = document.getElementById("akElevation");
-        // elevationModel.checked = "true";
-      }
+    // Front end buttons
+    if (layersParamArr.includes("Aluspõhi 50m") && layersParamArr.includes("Aluskord 50m")) {
+      checkedElevation = "dtmElevation"
+      elevationOnOff = undefined
+      view.map.ground.layers.forEach((layer) => {
+          layer.visible = false;
+      });
+
+      view.map.ground.layers.forEach((layer) => {
+        console.log("Elevation layer", layer)
     });
 
-    // Back end
-    view.map.ground.layers.forEach((obj) => {
-      if (layersParamArr.includes(obj.title)) {
-        obj.visible = !obj.visible;
-      }
-    });
+    } else if (layersParamArr.includes("Aluspõhi 50m")) {
+      checkedElevation = "apElevation"
+      view.map.ground.layers.forEach((layer) => {
+        if (layersParamArr.includes(layer.title)) {
+          layer.visible = !layer.visible;
+        }
+      });
 
-    return checkedElevation
+    } else if (layersParamArr.includes("Aluskord 50m")) {
+      checkedElevation = "akElevation"
+      view.map.ground.layers.forEach((layer) => {
+        if (layersParamArr.includes(layer.title)) {
+          layer.visible = !layer.visible;
+        }
+      });
+
+    }
+
+
   }
 
-  return "dtmElevation"
+  return [checkedElevation, elevationOnOff];
 };
 
 const getLocation = () => {
@@ -107,7 +117,11 @@ const copyTextToClipboard = async (text: string) => {
 };
 
 // TODO elevation layer visibility määramine üle vaadata, praegu on ebaloogiline arrays hoida
-const createURL = (view: SceneView, regularLayers: string[], elevationLayers: string[]) => {
+const createURL = (
+  view: SceneView,
+  regularLayers: string[],
+  elevationLayers: string[]
+) => {
   const currentURL = window.location.href;
   const urlWithoutParams = new URL(currentURL.split("?")[0]);
   const viewpoint = view.viewpoint;
