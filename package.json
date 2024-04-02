@@ -14,6 +14,7 @@
     "@esri/calcite-components-react": "^2.6.0",
     "calcite-point-symbols": "github:arcgis/calcite-point-symbols",
     "dompurify": "^3.0.11",
+    "gl-matrix": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
