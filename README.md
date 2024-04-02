@@ -1,33 +1,37 @@
-# React + TypeScript + Vite
+# Estonian Land Board 3D Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![TypeScript Badge](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![React Badge](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite Badge](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![ArcGIS Badge](https://img.shields.io/badge/ArcGIS-2C7AC3?logo=arcgis&logoColor=fff)
+## Introduction
+Using ArcGIS Maps SDK for JavaScript. \
+This is not an official application. Official application can be found at: https://3d.maaamet.ee/kaart/
 
-Currently, two official plugins are available:
+Site: https://andreskasekamp.github.io/elb-js-api/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🤯 gamechanging
+- 👨‍👨‍👦‍👦 community-driven
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-
-
-    // "build": "tsc && vite build",
+Improvements compared to official map application:
+- Modern UI
+- Layer transparency can be changed
+- Layer info can be opened in another tab
+- Switching between tree types is exclusive
+- In-ads integration
+- Geology layers and group
+- Elevation settings can be modified
+  - Elevation on/off
+  - Navigation underground
+  - Multiple elevation services
+- Shadow analysis widget
+- Slicing widget
+- Line of Sight analysis widget
+- Location widget
+- Sketching
+  - Draw multiple buildings and extrude them
+  - Draw lines
+  - Draw points
+- Ability to share a map location
+  - Underground
+- Rotating windmills
