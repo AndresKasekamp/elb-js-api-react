@@ -8,7 +8,7 @@
 Using ArcGIS Maps SDK for JavaScript. \
 This is not an official application. Official application can be found at: https://3d.maaamet.ee/kaart/
 
-Site: https://andreskasekamp.github.io/elb-js-api/
+Site: https://elb-js-api-react.vercel.app/
 
 - 🤯 gamechanging
 - 👨‍👨‍👦‍👦 community-driven
