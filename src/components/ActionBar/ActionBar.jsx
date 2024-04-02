@@ -161,7 +161,7 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
         <CalciteAction
           id="x-gis-map"
           data-action-id="x-gis-map"
-          icon="2d-explore"
+          icon="map"
           text="2D map"
           scale="l"
         ></CalciteAction>
