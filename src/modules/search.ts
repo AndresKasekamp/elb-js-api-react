@@ -17,6 +17,8 @@ interface Address {
 
 const inAdsUrl: string = "http://inaadress.maaamet.ee/inaadress/gazetteer/";
 
+// TODO mingi väike bug on, et aadress võib taustale kaduma minna
+
 export const setupCustomSearchSource = () => {
   return new SearchSource({
     placeholder: "Search address",
