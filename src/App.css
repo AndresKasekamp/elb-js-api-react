@@ -210,5 +210,5 @@ img {
 #wms-layers-container {
   overflow-y: auto;
   display: block;
-  height: 50vh;
+  /* height: 50vh; */
 }

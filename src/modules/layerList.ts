@@ -22,6 +22,8 @@ const basemapIds: string[] = [
   "e5c6a086a5ae4d1991d4ca35733fe0ed",
 ];
 
+
+
 const setupLayerListMain = (view: SceneView) => {
   return new LayerList({
     view,
@@ -94,6 +96,7 @@ const setupLayerListMain = (view: SceneView) => {
       }
     },
   });
+
 };
 
 const setupLayerListWMS = (view: SceneView) => {

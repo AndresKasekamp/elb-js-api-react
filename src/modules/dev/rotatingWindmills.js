@@ -121,6 +121,7 @@ export const displayWindmills = async (view) => {
     .eachAlways([fetchData()])
     .then(async (results) => {
     //   const wind = results[0].value;
+    // Hardcoded for now, direction and speed can be specified by the user in future developments
       const wind = {direction: 30, speed: 35};
       console.log(wind)
     //   let stations = results[1].value;

@@ -39,7 +39,7 @@ const getLayerVisibility = (view: SceneView) => {
 
 // TODO see komponent ümber teha
 const getElevationVisibility = (view: SceneView) => {
-  console.log("This function ran")
+
   const urlString = new URL(window.location.href);
   const url = new URLSearchParams(urlString.search);
   const layersParamStr = url.get("elevation");

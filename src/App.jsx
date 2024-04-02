@@ -188,7 +188,6 @@ function App() {
            * Layerlist from scene
            **************************************/
           const layerList = setupLayerListMain(sceneView);
-
           getLayerInfo(layerList, sceneView);
 
           /**************************************
