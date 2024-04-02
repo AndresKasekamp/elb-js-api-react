@@ -123,16 +123,13 @@ export const displayWindmills = async (view) => {
     //   const wind = results[0].value;
     // Hardcoded for now, direction and speed can be specified by the user in future developments
       const wind = {direction: 30, speed: 35};
-      console.log(wind)
+
     //   let stations = results[1].value;
       let stations = results[0].value;
-
       stations = await addZvalue(stations, view);
 
-      console.log("etak stations", stations)
-      console.log("what is view", view)
+      return new WindmillRenderNode({ view, wind, stations })
 
-      new WindmillRenderNode({ view, wind, stations })
 
     })
     .catch((error) => {
