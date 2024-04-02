@@ -15,7 +15,7 @@ export const ElevationCheck = ({ view, elevationOnOff }) => {
 
   // TODO sa peaksid teadma, milline elevation on praegune lahtine
   const handleElevationCheck = () => {
-    console.log("Handle elevation check ran");
+
     if (elevation) {
       setElevation(undefined);
     } else {

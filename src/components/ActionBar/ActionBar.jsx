@@ -12,11 +12,14 @@ import {
 import { ShareMapAlert } from "../ShareMap/ShareMapAlert";
 import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers.ts";
 import { createURL, copyTextToClipboard } from "../../modules/goToLocation.ts";
+import { XGISMapPanel } from "../Analysis/XGISMapPanel.jsx";
 
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [actionbar, setActionbar] = useState(false);
   const [activeWidget, setActiveWidget] = useState(null);
   const [shareOpen, setShareOpen] = useState(undefined)
+  const [xgisPanelOpen, setXgisPanelOpen] = useState(false)
+  const [share2dCoordinates, setShare2dCoordinates] = useState({xmin: 0, ymin: 0, xmax: 0, ymax:0})
 
   const handleActionBarClick = (e) => {
 
@@ -30,6 +33,7 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
     }
 
     const nextWidget = e.target.dataset.actionId;
+
     if (nextWidget !== activeWidget) {
       document.querySelector(`[data-action-id=${nextWidget}]`).active = true;
       document.querySelector(`[data-panel-id=${nextWidget}]`).hidden = false;
@@ -40,6 +44,12 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
 
     if (nextWidget === "shadowCast") {
       shadowCast.visible = !shadowCast.visible;
+    }
+
+    if (nextWidget === "x-gis-map") {
+      const {xmin, ymin, xmax, ymax} = view.extent
+      setXgisPanelOpen(!xgisPanelOpen)
+      setShare2dCoordinates({xmin, ymin, xmax, ymax})
     }
 
     if (nextWidget === "share") {
@@ -148,9 +158,17 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
           text="Share"
           scale="l"
         ></CalciteAction>
+        <CalciteAction
+          id="x-gis-map"
+          data-action-id="x-gis-map"
+          icon="2d-explore"
+          text="2D map"
+          scale="l"
+        ></CalciteAction>
         <CalciteTooltip reference-element="share-tooltip">
           <span>Share a map</span>
         </CalciteTooltip>
+        <XGISMapPanel xgisPanelOpen={xgisPanelOpen} share2dCoordinates={share2dCoordinates}/>
       </CalciteActionBar>
       <ShareMapAlert shareOpen={shareOpen} />
     </>

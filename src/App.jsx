@@ -70,6 +70,7 @@ import { InformationPanel } from "./components/Analysis/InformationPanel.jsx";
 import { SketchingPanel } from "./components/Analysis/SketchingPanel.jsx";
 import { Header } from "./components/ActionBar/Header.jsx";
 
+
 // CSS modules
 import "./App.css";
 import "@esri/calcite-components/dist/calcite/calcite.css";
@@ -389,6 +390,7 @@ function App() {
           <SketchingPanel />
           <InformationPanel description={description} />
           <SharePanel />
+          
         </CalciteShellPanel>
 
         <div className="mapDiv" key="mapDiv" ref={mapDiv}></div>
