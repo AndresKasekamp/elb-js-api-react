@@ -44,6 +44,8 @@ import {
   setupViewPoint,
 } from "./modules/goToLocation.ts";
 
+// import { displayWindmills } from "./modules/dev/rotatingWindmills.js"
+
 // Calcite components
 import "@esri/calcite-components/dist/components/calcite-shell.js";
 import "@esri/calcite-components/dist/components/calcite-shell-panel.js";
@@ -129,8 +131,8 @@ function App() {
       setView(sceneView);
 
       // Loading twice so both scenes can be active
-      geologyView.when(() => {
-        sceneView.when(() => {
+      geologyView.when(async () => {
+        sceneView.when(async () => {
           /**************************************
            * Geology layer setup
            **************************************/
@@ -286,8 +288,8 @@ function App() {
           /**************************************
            * Rotating windmills
            **************************************/
-          // TODO selle kuvamine võiks olla dummy kihi kaudu (ka renderdamine, sest muidu jookseb app liiga kaua ilmselt)
-          // displayWindmills(view);
+
+          // await displayWindmills(sceneView)
 
           /**************************************
            * Reordering layers
@@ -365,6 +367,7 @@ function App() {
             heading={"Layers"}
             dataPanelId={"layers"}
             divId={"layers-container"}
+            view={view}
           />
           <LayerPanel
             heading={"WMS"}

@@ -11,7 +11,7 @@ import {
 
 export const ElevationRadioButtons = ({ view, checkedElevation }) => {
 
-  console.log("Checked elevation", checkedElevation)
+
 
   const [elevation, setElevation] = useState(undefined);
 
