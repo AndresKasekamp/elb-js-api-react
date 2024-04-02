@@ -10,19 +10,28 @@ import {
 } from "@esri/calcite-components-react";
 
 import { ShareMapAlert } from "../ShareMap/ShareMapAlert";
-import { getVisibleLayers, compareVisibleLayers } from "../../modules/layers.ts";
+import {
+  getVisibleLayers,
+  compareVisibleLayers,
+} from "../../modules/layers.ts";
 import { createURL, copyTextToClipboard } from "../../modules/goToLocation.ts";
 import { XGISMapPanel } from "../Analysis/XGISMapPanel.jsx";
+
+// TODO sharemap bug, kui avada üks mis järgmine tööriist
 
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [actionbar, setActionbar] = useState(false);
   const [activeWidget, setActiveWidget] = useState(null);
-  const [shareOpen, setShareOpen] = useState(undefined)
-  const [xgisPanelOpen, setXgisPanelOpen] = useState(false)
-  const [share2dCoordinates, setShare2dCoordinates] = useState({xmin: 0, ymin: 0, xmax: 0, ymax:0})
+  const [shareOpen, setShareOpen] = useState(undefined);
+  const [xgisPanelOpen, setXgisPanelOpen] = useState(false);
+  const [share2dCoordinates, setShare2dCoordinates] = useState({
+    xmin: 0,
+    ymin: 0,
+    xmax: 0,
+    ymax: 0,
+  });
 
   const handleActionBarClick = (e) => {
-
     if (e.target.tagName !== "CALCITE-ACTION") {
       return;
     }
@@ -47,9 +56,9 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
     }
 
     if (nextWidget === "x-gis-map") {
-      const {xmin, ymin, xmax, ymax} = view.extent
-      setXgisPanelOpen(!xgisPanelOpen)
-      setShare2dCoordinates({xmin, ymin, xmax, ymax})
+      const { xmin, ymin, xmax, ymax } = view.extent;
+      setXgisPanelOpen(!xgisPanelOpen);
+      setShare2dCoordinates({ xmin, ymin, xmax, ymax });
     }
 
     if (nextWidget === "share") {
@@ -62,7 +71,10 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
 
       const sharedLocation = createURL(view, regularLayers, elevationChanged);
       copyTextToClipboard(sharedLocation);
-      setShareOpen(true)
+      setShareOpen(true);
+      setTimeout(() => {
+        setShareOpen(undefined);
+      }, 6000);
     }
   };
 
@@ -168,7 +180,10 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
         <CalciteTooltip reference-element="share-tooltip">
           <span>Share a map</span>
         </CalciteTooltip>
-        <XGISMapPanel xgisPanelOpen={xgisPanelOpen} share2dCoordinates={share2dCoordinates}/>
+        <XGISMapPanel
+          xgisPanelOpen={xgisPanelOpen}
+          share2dCoordinates={share2dCoordinates}
+        />
       </CalciteActionBar>
       <ShareMapAlert shareOpen={shareOpen} />
     </>
