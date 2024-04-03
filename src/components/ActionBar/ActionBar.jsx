@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "@esri/calcite-components/dist/components/calcite-action-bar.js";
 import "@esri/calcite-components/dist/components/calcite-action.js";
@@ -23,7 +23,31 @@ import { KaldaerofotoPanel } from "../Analysis/KaldaerofotoPanel.jsx";
 // TODO propi peaks tõstma, et muutused oleks õiged: https://react.dev/learn/sharing-state-between-components
 //https://fotoladu.maaamet.ee/etak.php?x=548727&y=6590232&view4
 
+
+
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
+
+  const [IconSize, setIconSize] = useState("l");
+
+  // TODO vb panna s ka modiibivaate jaoks
+  useEffect(() => {
+    const updateIconSize = () => {
+      const newIconSize = window.innerHeight < 1200 ? "m" : "l";
+      setIconSize(newIconSize);
+    };
+
+    // Initial calculation
+    updateIconSize();
+
+    // Listen for window resize events
+    window.addEventListener("resize", updateIconSize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", updateIconSize);
+    };
+  }, []);
+
   const [actionbar, setActionbar] = useState(false);
   const [activeWidget, setActiveWidget] = useState(null);
   const [shareOpen, setShareOpen] = useState(undefined);
@@ -108,94 +132,94 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
           data-action-id="layers"
           icon="layers"
           text="Layers"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="layers-wms"
           icon="image-layer"
           text="WMS"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="basemaps"
           icon="layer-basemap"
           text="Basemaps"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="elevation"
           icon="sky-plot"
           text="Elevation"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="lineOfSight"
           icon="line-of-sight"
           text="Line of Sight"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="daylight"
           icon="date-time"
           text="Daylight"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="elevationProfile"
           icon="altitude"
           text="Elevation profile"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="measurement"
           icon="measure"
           text="Measurements"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="shadowCast"
           icon="measure-building-height-shadow"
           text="Shadow cast"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="slicing"
           icon="slice"
           text="Slicing"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="sketching"
           icon="freehand"
           text="Sketch"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           data-action-id="information"
           icon="information"
           text="Information"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           id="share-tooltip"
           data-action-id="share"
           icon="share"
           text="Share"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           id="x-gis-map"
           data-action-id="x-gis-map"
           icon="map"
           text="2D kaart"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteAction
           id="kaldfoto"
           data-action-id="kaldfoto"
           icon="camera"
           text="Kaldaerofotod"
-          scale="l"
+          scale={IconSize}
         ></CalciteAction>
         <CalciteTooltip reference-element="share-tooltip">
           <span>Share a map</span>
