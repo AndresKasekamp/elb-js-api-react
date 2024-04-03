@@ -5,34 +5,33 @@ import { customStyles } from "./ModalMap.module";
 
 Modal.setAppElement("#root");
 
-export const XGISMapPanel = ({ xgisPanelOpen, share2dCoordinates }) => {
+export const KaldaerofotoPanel = ({ kaldfotoPanelOpen, kaldCoordinates }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     // Update state only if the prop changes
-    setIsOpen(xgisPanelOpen);
-  }, [xgisPanelOpen]);
+    setIsOpen(kaldfotoPanelOpen);
+  }, [kaldfotoPanelOpen]);
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  const { xmin, ymin, xmax, ymax } = share2dCoordinates || {};
+  const { x, y } = kaldCoordinates || {};
 
   return (
-    <div data-panel-id="x-gis-map">
+    <div data-panel-id="kaldfoto">
       <Modal
         isOpen={modalIsOpen}
         style={customStyles}
         onRequestClose={closeModal}
-        contentLabel="X-GIS Modal"
+        contentLabel="Kaldfoto Modal"
       >
-        {xmin && ymin && xmax && ymax && (
+        {x && y && (
           <iframe
             width="99%"
             height="99%"
-            id="xGisMap"
-            src={`https://xgis.maaamet.ee/xgis2/page/app/maainfo?bbox=${xmin},${ymin},${xmax},${ymax}`}
+            src={`https://fotoladu.maaamet.ee/etak.php?x=${x}&y=${y}&view4`}
           />
         )}
       </Modal>

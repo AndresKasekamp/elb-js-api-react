@@ -16,8 +16,12 @@ import {
 } from "../../modules/layers.ts";
 import { createURL, copyTextToClipboard } from "../../modules/goToLocation.ts";
 import { XGISMapPanel } from "../Analysis/XGISMapPanel.jsx";
+import { KaldaerofotoPanel } from "../Analysis/KaldaerofotoPanel.jsx";
 
+// TODO või võtta ära aktiivsuse indikaator modali tööriistadelt?
 // TODO sharemap bug, kui avada üks mis järgmine tööriist
+// TODO propi peaks tõstma, et muutused oleks õiged: https://react.dev/learn/sharing-state-between-components
+//https://fotoladu.maaamet.ee/etak.php?x=548727&y=6590232&view4
 
 export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
   const [actionbar, setActionbar] = useState(false);
@@ -30,6 +34,8 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
     xmax: 0,
     ymax: 0,
   });
+  const [kaldCoordinates, setKaldCoordinates] = useState({ x: 0, y: 0 });
+  const [kaldfotoPanelOpen, setKaldFotoPanelOpen] = useState(false);
 
   const handleActionBarClick = (e) => {
     if (e.target.tagName !== "CALCITE-ACTION") {
@@ -55,10 +61,17 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
       shadowCast.visible = !shadowCast.visible;
     }
 
+    // TODO see vajaks refactorit
     if (nextWidget === "x-gis-map") {
       const { xmin, ymin, xmax, ymax } = view.extent;
       setXgisPanelOpen(!xgisPanelOpen);
       setShare2dCoordinates({ xmin, ymin, xmax, ymax });
+    }
+
+    if (nextWidget === "kaldfoto") {
+      const { x, y } = view.camera.position;
+      setKaldFotoPanelOpen(!kaldfotoPanelOpen);
+      setKaldCoordinates({ x, y });
     }
 
     if (nextWidget === "share") {
@@ -174,7 +187,14 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
           id="x-gis-map"
           data-action-id="x-gis-map"
           icon="map"
-          text="2D map"
+          text="2D kaart"
+          scale="l"
+        ></CalciteAction>
+        <CalciteAction
+          id="kaldfoto"
+          data-action-id="kaldfoto"
+          icon="camera"
+          text="Kaldaerofotod"
           scale="l"
         ></CalciteAction>
         <CalciteTooltip reference-element="share-tooltip">
@@ -183,6 +203,10 @@ export const ActionBar = ({ view, shadowCast, initVisibleLayers }) => {
         <XGISMapPanel
           xgisPanelOpen={xgisPanelOpen}
           share2dCoordinates={share2dCoordinates}
+        />
+        <KaldaerofotoPanel
+          kaldfotoPanelOpen={kaldfotoPanelOpen}
+          kaldCoordinates={kaldCoordinates}
         />
       </CalciteActionBar>
       <ShareMapAlert shareOpen={shareOpen} />
