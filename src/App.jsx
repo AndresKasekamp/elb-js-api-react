@@ -92,6 +92,7 @@ function App() {
     useState(undefined);
   const [checkedElevation, setCheckedElevation] = useState(null);
   const [elevationOnOff, setElevationOnOff] = useState(null);
+  const [losAnalysis, setLosAnalysis] = useState(null);
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -239,7 +240,8 @@ function App() {
           /**************************************
            * Initialize the LineOfSight widget
            **************************************/
-          setupLoS(sceneView);
+          const losAnalysis = setupLoS(sceneView);
+          setLosAnalysis(losAnalysis)
 
           /**************************************
            * Initialize the Search Widget
@@ -381,7 +383,7 @@ function App() {
             checkedElevation={checkedElevation}
             elevationOnOff={elevationOnOff}
           />
-          <LineOfSightPanel />
+          <LineOfSightPanel losAnalysis={losAnalysis} />
           <DayLightPanel />
           <ElevationProfilePanel />
           <MeasurementPanel measurement={measurement} />
