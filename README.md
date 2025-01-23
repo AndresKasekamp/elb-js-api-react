@@ -47,7 +47,7 @@ Improvements compared to official map application:
 
 <div>
     <img
-        alt="Maa-amet logo" 
+        alt="MaRu logo" 
         height="100px"
         src="https://maaamet.ee/sites/default/files/MAA-AMET_EST.svg">
 </div>
