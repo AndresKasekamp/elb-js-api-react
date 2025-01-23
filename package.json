@@ -12,9 +12,11 @@
   "dependencies": {
     "@arcgis/core": "^4.29.10",
     "@esri/calcite-components-react": "^2.6.0",
+    "@microsoft/clarity": "^1.0.0",
     "calcite-point-symbols": "github:arcgis/calcite-point-symbols",
     "dompurify": "^3.0.11",
     "gl-matrix": "^3.4.3",
+    "posthog-js": "^1.207.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1"
