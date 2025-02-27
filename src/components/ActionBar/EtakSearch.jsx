@@ -1,3 +1,4 @@
+// TODO seda peab modulariseerima veits
 import "@esri/calcite-components/dist/components/calcite-input-text.js";
 import "@esri/calcite-components/dist/components/calcite-alert.js";
 
@@ -64,18 +65,18 @@ const fetchData = async (etak_id) => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      console.error("Network connection error")
+      console.error("Network connection error");
     }
 
     const data = await response.json();
     return data.features[0].geometry.coordinates;
   } catch (error) {
-    console.error("Request error")
+    console.error("Request error");
   }
 };
 
-export const EtakIdAlert = ({alertOpen}) => {
-  console.log("I AM HERE")
+export const EtakIdAlert = ({ alertOpen }) => {
+  console.log("I AM HERE");
   return (
     <CalciteAlert
       id="etak-id-alert"
@@ -84,7 +85,7 @@ export const EtakIdAlert = ({alertOpen}) => {
       auto-close-duration="fast"
       placement="top"
       open={alertOpen ? true : undefined}
-      icon 
+      icon
       scale="s"
       kind="warning"
     >
@@ -94,7 +95,7 @@ export const EtakIdAlert = ({alertOpen}) => {
 };
 
 // TODO kui tühi response tuleb, siis sellega arvestada
-export const EtakSearch = ({view}) => {
+export const EtakSearch = ({ view }) => {
   const [inputValue, setInputValue] = useState("");
   const [graphicsLayer, setGraphicsLayer] = useState(null);
 
@@ -118,7 +119,7 @@ export const EtakSearch = ({view}) => {
           const point = new Point({
             x: centroid.x,
             y: centroid.y,
-            spatialReference: { wkid: 3301 }
+            spatialReference: { wkid: 3301 },
           });
 
           const markerSymbol = {
@@ -126,19 +127,19 @@ export const EtakSearch = ({view}) => {
             color: [226, 119, 40], // Orange
             outline: {
               color: [255, 255, 255], // White
-              width: 1
-            }
+              width: 1,
+            },
           };
 
           const pointGraphic = new Graphic({
             geometry: point,
-            symbol: markerSymbol
+            symbol: markerSymbol,
           });
 
           graphicsLayer.removeAll();
           graphicsLayer.add(pointGraphic);
         } else {
-          console.error("Error calculating ETAK ID centroid")
+          console.error("Error calculating ETAK ID centroid");
         }
       }
     }
