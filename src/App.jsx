@@ -241,7 +241,7 @@ function App() {
            * Initialize the LineOfSight widget
            **************************************/
           const losAnalysis = setupLoS(sceneView);
-          setLosAnalysis(losAnalysis)
+          setLosAnalysis(losAnalysis);
 
           /**************************************
            * Initialize the Search Widget
@@ -347,17 +347,19 @@ function App() {
         if (sceneView && geologyView) {
           // geologyView.container = null;
           // sceneView.container = null;
-          sceneView.destroy()
-          geologyView.destroy()
+          sceneView.destroy();
+          geologyView.destroy();
         }
       };
     }
   }, [mapDiv]);
 
+
+
   return (
     <div key="main-div" id="main-div">
       <CalciteShell content-behind id="calcite-shell">
-        <Header />
+        <Header view={view} />
         <CalciteShellPanel slot="panel-start" displayMode="float">
           <ActionBar
             view={view}
@@ -392,7 +394,6 @@ function App() {
           <SketchingPanel />
           <InformationPanel description={description} />
           <SharePanel />
-          
         </CalciteShellPanel>
 
         <div className="mapDiv" key="mapDiv" ref={mapDiv}></div>
